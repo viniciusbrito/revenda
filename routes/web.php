@@ -11,15 +11,22 @@
 |
 */
 
-Route::get('/', ['as' =>'home', 'uses' => 'HomeController@index']);
+Route::get('/', ['as' =>'home', 'uses' => 'GuestController@index']);
 
-/*Creating routes for Auth*/
+/*Creating Routes for Auth*/
 Auth::routes();
 
-Route::get('/home', ['as' =>'dash', 'uses' => 'HomeController@index']);
+/*Client's Routes*/
+Route::group(['prefix' => 'client'], function() {
 
+    /*Route to client's panel*/
+    Route::get('/', ['as' =>'dash', 'uses' => 'HomeController@index']);
+});
+
+/*Admin's Routes*/
 Route::group(['prefix' => 'admin'], function(){
 
+    /*Routes to login*/
     Route::group(['prefix' => 'login', 'namespace' => 'Auth'], function(){
 
         Route::get('/', [
@@ -33,11 +40,13 @@ Route::group(['prefix' => 'admin'], function(){
         ]);
     });
 
+    /*Logout route*/
     Route::get('/logout', [
         'as' => 'admin.logout',
         'uses' => 'Auth\AdminLoginController@logout'
     ]);
 
+    /*Routes to send token and create new password*/
     Route::group(['prefix' => 'password', 'namespace' => 'Auth'], function(){
 
         /*Forgot password*/
@@ -63,6 +72,7 @@ Route::group(['prefix' => 'admin'], function(){
         ]);
     });
 
+    /*Admin's Dashboard*/
     Route::get('/', [
         'as' => 'admin.dashboard',
         'uses' => 'Admin\AdminController@index'

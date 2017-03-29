@@ -2,7 +2,7 @@
 
 namespace Revenda\Http\Controllers\Auth;
 
-use Revenda\User;
+use Revenda\Client\User;
 use Revenda\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/client';
 
     /**
      * Create a new controller instance.
@@ -50,6 +50,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'cpf' => 'required|max:16|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -63,8 +64,9 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'nome' => $data['name'],
             'email' => $data['email'],
+            'cpf' => $data['cpf'],
             'password' => bcrypt($data['password']),
         ]);
     }

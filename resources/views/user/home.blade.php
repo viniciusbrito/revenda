@@ -8,7 +8,10 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    @if('')
+                    @if(count(Auth::user()->contas))
+                        {{Auth::user()->contas->first()->pacote->nome}}
+                    @endif
                 </div>
             </div>
         </div>
