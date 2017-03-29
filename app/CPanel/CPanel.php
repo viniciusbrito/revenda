@@ -3,7 +3,7 @@
 namespace Revenda\CPanel;
 
 use Revenda\CPanel\xmlapi;
-
+use Revenda\CPanel\Conta;
 
 class CPanel
 {
@@ -28,7 +28,7 @@ class CPanel
     /**
      * @param $conta
      */
-    public function setConta($conta)
+    public function setConta(Conta $conta)
     {
         $this->conta = $conta;
     }

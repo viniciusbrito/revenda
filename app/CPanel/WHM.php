@@ -3,7 +3,7 @@
 namespace Revenda\CPanel;
 
 use Revenda\CPanel\xmlapi;
-use Revenda\Conta;
+use Revenda\CPanel\Conta;
 
 class WHM
 {
