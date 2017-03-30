@@ -12,11 +12,11 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $adm = [
-            'name' => 'Vinícius Brito',
+            'nome' => 'Vinícius Brito',
             'email' => 'vinicius.fernandes.brito@gmail.com',
             'password' => bcrypt('senha123'),
             'remember_token' => str_random(10),
         ];
-        DB::table('admins')->create($adm);
+        DB::table('admins')->insert($adm);
     }
 }

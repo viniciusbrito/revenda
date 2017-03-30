@@ -12,12 +12,12 @@ class UserSeeder extends Seeder
     public function run()
     {
         $usr = [
-            'name' => 'Vinícius Brito',
+            'nome' => 'Vinícius Brito',
             'email' => 'vinicius.fernandes.brito@gmail.com',
             'cpf' => '022.181.461-26',
             'password' => bcrypt('senha123'),
             'remember_token' => str_random(10),
         ];
-        DB::table('users')->create($usr);
+        DB::table('users')->insert($usr);
     }
 }

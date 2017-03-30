@@ -13,15 +13,26 @@ class CreateContasTable extends Migration
      */
     public function up()
     {
+        Schema::create('conta_status', function (Blueprint $table) {
+            $table->increments('idStatus');
+            $table->string('status');
+
+        });
+
         Schema::create('contas', function (Blueprint $table) {
             $table->increments('idConta');
             $table->string('dominio', 255);
-            $table->string('usuario', 255);
-            $table->string('senha', 255);
+            $table->string('usuario', 50);
+            $table->string('senha', 25);
+            $table->unsignedInteger('status_id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('pacote_id');
             $table->boolean('nova_conta')->default(true);
             $table->timestamps();
+
+            $table->foreign('status_id')
+                ->references('idStatus')
+                ->on('conta_status');
 
             $table->foreign('user_id')
                 ->references('id')
@@ -42,5 +53,6 @@ class CreateContasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('contas');
+        Schema::dropIfExists('status');
     }
 }
