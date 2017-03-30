@@ -17,12 +17,13 @@
                 </div>
 
                 <div class="panel-body">
-                    @if(count(Auth::user()->contas))
+                    @if(count($contas))
                         <ul class="list-group">
-                            @foreach(Auth::user()->contas as $conta)
+                            @foreach($contas as $conta)
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
+                                            <strong>{{ $conta->dominio }}</strong><br/>
                                             <strong>{{ $conta->pacote->nome }}</strong><br/>
                                             <small>Vencimento todo dia {{ $conta->created_at->format('d') }}</small>
                                             <small>Status: {{ $conta->status() }}</small>
@@ -34,6 +35,7 @@
                                 </li>
                             @endforeach
                         </ul>
+                        {{ $contas->links() }}
                     @endif
                 </div>
             </div>

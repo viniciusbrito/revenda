@@ -60,11 +60,13 @@ class PaymentController extends Controller
 
         $pagamento = new Pagseguro();
         $retorno = $pagamento->criaPagamentoBoleto(Auth::user(), $conta, $request->senderHash);
+        if(!$retorno)
+            return view('user.pagamento')->with(['conta' => $conta]);
 
         $link = str_replace('print.jhtml', 'download_pdf.jhtml', (string)$retorno->getPaymentLink());
+        $conta->status_id = 2;
+        $conta->save();
         return redirect($link);
-
-        return view('user.pagamento')->with(['conta' => $conta]);
     }
 
     /**

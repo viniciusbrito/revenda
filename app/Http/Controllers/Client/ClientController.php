@@ -3,6 +3,7 @@
 namespace Revenda\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
+use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
 
 class ClientController extends Controller
@@ -20,6 +21,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return view('user.home');
+        $contas = Conta::paginate(5);
+        return view('user.home')->with(['contas' => $contas]);
     }
 }
