@@ -4,6 +4,7 @@ namespace Revenda\Http\Controllers\Auth;
 
 use Revenda\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {

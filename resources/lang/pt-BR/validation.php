@@ -88,8 +88,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'idPacote' => [
+            'required' => 'Selecione um pacote.',
         ],
     ],
 
@@ -104,6 +104,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'idPacote' => 'pacote'
+    ],
 
 ];

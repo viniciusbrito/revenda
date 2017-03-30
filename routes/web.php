@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', ['as' =>'home', 'uses' => 'GuestController@index']);
+Route::get('/', ['as' =>'home', 'uses' => 'HomeController@index']);
 
 /*Creating Routes for Auth*/
 Auth::routes();
@@ -20,7 +20,11 @@ Auth::routes();
 Route::group(['prefix' => 'client'], function() {
 
     /*Route to client's panel*/
-    Route::get('/', ['as' =>'dash', 'uses' => 'HomeController@index']);
+    Route::get('/', ['as' =>'client.index', 'uses' => 'Client\ClientController@index']);
+
+    Route::get('/account', ['as' =>'client.account.create', 'uses' => 'CPanel\ContaController@create']);
+
+    Route::post('/account',['as' => 'client.account.store', 'uses' => 'CPanel\ContaController@store']);
 });
 
 /*Admin's Routes*/

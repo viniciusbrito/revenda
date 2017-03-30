@@ -1,19 +1,15 @@
 <?php
 
-namespace Revenda\Http\Controllers;
+namespace Revenda\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
+use Revenda\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class ClientController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct(Request $request)
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
         $this->request = $request;
     }
 
@@ -24,6 +20,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('public.home');
+        return view('user.home');
     }
 }
