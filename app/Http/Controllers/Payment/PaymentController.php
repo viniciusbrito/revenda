@@ -5,7 +5,9 @@ namespace Revenda\Http\Controllers\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
+use Revenda\Payment\Pagseguro;
 
 class PaymentController extends Controller
 {
@@ -47,7 +49,22 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $conta = null;
+
+        if(Cache::has(Auth::user()->id))
+            $conta = Cache::get(Auth::user()->id);
+        elseif(isset($request->idConta))
+            $conta = Conta::findOrFail($request->idConta);
+        else
+            return view('user.pagamento');
+
+        $pagamento = new Pagseguro();
+        $retorno = $pagamento->criaPagamentoBoleto(Auth::user(), $conta, $request->senderHash);
+
+        $link = str_replace('print.jhtml', 'download_pdf.jhtml', (string)$retorno->getPaymentLink());
+        return redirect($link);
+
+        return view('user.pagamento')->with(['conta' => $conta]);
     }
 
     /**

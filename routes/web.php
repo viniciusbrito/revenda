@@ -39,7 +39,7 @@ Route::group(['prefix' => 'client'], function() {
     Route::resource('/account',
         'CPanel\ContaController',
         [
-            'only' => ['create', 'store'],
+            'only' => ['create', 'store', 'show'],
             'as' => 'client'
         ]);
 

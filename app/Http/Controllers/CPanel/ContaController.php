@@ -82,7 +82,19 @@ class ContaController extends Controller
      */
     public function show($id)
     {
-        //
+        if(!$id) {
+            return response(404);
+        }
+        else {
+            $conta = Conta::findOrFail($id);
+
+            if($conta->status_id == 1) {
+                Cache::forget(Auth::user()->id);
+                Cache::put(Auth::user()->id, $conta, 60);
+                return redirect()->route('client.payment.create');
+            }
+            return response()->json($conta);
+        }
     }
 
     /**

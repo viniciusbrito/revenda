@@ -31,4 +31,18 @@ class Conta extends Model
     {
         return $this->belongsTo('Revenda\CPanel\Pacote','pacote_id');
     }
+
+    public function status()
+    {
+        switch ($this->status_id) {
+            case 1:
+                return 'No Carrinho';
+            case 2:
+                return 'Aguardando pagamento';
+            case 3:
+                return 'Ativo';
+            case 4:
+                return 'Inativo';
+        }
+    }
 }

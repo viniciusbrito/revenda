@@ -25,9 +25,10 @@
                                         <div class="col-sm-3">
                                             <strong>{{ $conta->pacote->nome }}</strong><br/>
                                             <small>Vencimento todo dia {{ $conta->created_at->format('d') }}</small>
+                                            <small>Status: {{ $conta->status() }}</small>
                                         </div>
                                         <div class="col-sm-3">
-                                            <buttom class="btn btn-default btn-xs">Gerenciar</buttom><br/>
+                                            <a href="{{ route('client.account.show', $conta->idConta) }}" class="btn btn-default btn-xs">Gerenciar</a><br/>
                                         </div>
                                     </div>
                                 </li>
