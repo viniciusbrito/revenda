@@ -19,12 +19,32 @@ Auth::routes();
 /*Client's Routes*/
 Route::group(['prefix' => 'client'], function() {
 
-    /*Route to client's panel*/
-    Route::get('/', ['as' =>'client.index', 'uses' => 'Client\ClientController@index']);
+    /*Routes to client's panel*/
+    Route::resource('/',
+        'Client\ClientController',
+        [
+            'only' => ['index'],
+            'names' => ['index' => 'client.index']
+        ]);
 
-    Route::get('/account', ['as' =>'client.account.create', 'uses' => 'CPanel\ContaController@create']);
+    /*Routes to client's addres*/
+    Route::resource('/address',
+        'Client\EnderecoController',
+        [
+            'except' => ['index', 'show', 'destroy'],
+            'as' => 'client'
+        ]);
 
-    Route::post('/account',['as' => 'client.account.store', 'uses' => 'CPanel\ContaController@store']);
+    /*Routes to client's accouts*/
+    Route::resource('/account',
+        'CPanel\ContaController',
+        [
+            'only' => ['create', 'store'],
+            'as' => 'client'
+        ]);
+
+    Route::resource('/payment', 'Payment\PaymentController', ['only' => ['create', 'store'], 'as' => 'client']);
+
 });
 
 /*Admin's Routes*/

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Conta extends Model
 {
     protected $fillable = [
-        'dominio', 'usuario', 'senha', 'pacote_id'
+        'dominio', 'usuario', 'senha', 'status_id', 'pacote_id'
     ];
 
     protected $hidden = [

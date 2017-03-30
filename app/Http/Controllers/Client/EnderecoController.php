@@ -1,15 +1,14 @@
 <?php
 
-namespace Revenda\Http\Controllers\CPanel;
+namespace Revenda\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use Revenda\Client\Endereco;
 use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
-use Revenda\CPanel\Pacote;
 
-class ContaController extends Controller
+class EnderecoController extends Controller
 {
     function __construct()
     {
@@ -31,9 +30,14 @@ class ContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('user.conta')->with(['pacotes' => Pacote::all()]);
+        $conta  = null;
+
+        if(Cache::has(Auth::user()->id))
+            $conta = Cache::get(Auth::user()->id);
+
+        return view('user.endereco')->with(['conta' => $conta]);
     }
 
     /**
@@ -45,33 +49,23 @@ class ContaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'idPacote'  =>  'required|exists:pacotes,idPacote',
-            'dominio'   =>  'required'
+            'rua' => 'required|min:2',
+            'numero' => 'required',
+            'bairro' => 'required|min:3',
+            'cep' => 'required|min:9|max:9',
+            'cidade' => 'required|min:4',
+            'estado' => 'required|min:2',
+            'ponto_referencia' => 'string|nullable',
         ]);
 
-        $pkt = Pacote::findOrFail($request->idPacote);
-
-        $username = explode('.', $request->dominio)[0];
-        $conta = Conta::where('usuario', $username)->first();
-        if($conta)
-            return back()->withInput()->withErrors(['dominio' => 'Problemas com usuario']);
-
-        $conta = new Conta();
-        $conta->dominio = $request->dominio;
-        $conta->usuario = $username;
-        $conta->senha = str_random(8);
-        $conta->status_id = 1;
-        $conta->pacote_id = $pkt->idPacote;
         $user = Auth::user();
-        $conta = $user->contas()->save($conta);
+        $address = new Endereco($request->all());
+        $user->endereco()->save($address);
 
-        Cache::forget($user->id);
-        Cache::put($user->id, $conta, 60);
-
-        if($user->endereco) {
+        if(isset($request->idConta))
             return redirect()->route('client.payment.create');
-        }
-        return redirect()->route('client.address.create');
+
+        return redirect()->route('client.enderco.create')->withInput()->with(['flash_message' => 'Endereco salvo com sucesso']);
     }
 
     /**

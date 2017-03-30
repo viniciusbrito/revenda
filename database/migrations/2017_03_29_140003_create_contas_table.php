@@ -53,6 +53,6 @@ class CreateContasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('contas');
-        Schema::dropIfExists('status');
+        Schema::dropIfExists('conta_status');
     }
 }
