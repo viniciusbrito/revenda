@@ -13,13 +13,13 @@ class Endereco extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'rua',
+        'logradouro',
         'numero',
         'bairro',
         'cep',
         'cidade',
         'estado',
-        'ponto_referencia',
+        'complemento',
         'user_id'
     ];
 

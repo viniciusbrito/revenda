@@ -1,19 +1,19 @@
 <?php
 
-namespace Revenda\Http\Controllers\Client;
+namespace Revenda\Http\Controllers\Admin\Client;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Revenda\Client\Endereco;
-use Revenda\CPanel\Conta;
+use Revenda\Client\User;
 use Revenda\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
 
-class EnderecoController extends Controller
+class UserController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:admin');
     }
 
     /**
@@ -31,14 +31,9 @@ class EnderecoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $conta  = null;
-
-        if(Cache::has(Auth::user()->id))
-            $conta = Cache::get(Auth::user()->id);
-
-        return view('user.endereco')->with(['conta' => $conta]);
+        return view('admin.user.create');
     }
 
     /**
@@ -50,23 +45,29 @@ class EnderecoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'rua' => 'required|min:2',
+            'nome' => 'required|min:5|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'cpf' => 'required|max:16|unique:users',
+            'telefone' => 'required|min:8',
+            'logradouro' => 'required|min:2',
             'numero' => 'required',
             'bairro' => 'required|min:3',
             'cep' => 'required|min:9|max:9',
             'cidade' => 'required|min:4',
             'estado' => 'required|min:2',
-            'ponto_referencia' => 'string|nullable',
+            'complemento' => 'string|nullable',
         ]);
 
-        $user = Auth::user();
-        $address = new Endereco($request->all());
-        $user->endereco()->save($address);
+        $dados = $request->all();
+        $dados['password'] = Hash::make(str_random(8));
 
-        if(isset($request->idConta))
-            return redirect()->route('client.payment.create');
+        $user = DB::transaction(function() use($dados) {
+            $user = User::create($dados);
+            $user->endereco()->save(new Endereco($dados));
+            return $user;
+        });
 
-        return redirect()->route('client.enderco.create')->withInput()->with(['flash_message' => 'Endereco salvo com sucesso']);
+        return redirect()->route('admin.account.create')->with(['user' => $user]);
     }
 
     /**

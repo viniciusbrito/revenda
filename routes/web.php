@@ -101,4 +101,8 @@ Route::group(['prefix' => 'admin'], function(){
         'as' => 'admin.dashboard',
         'uses' => 'Admin\AdminController@index'
     ]);
+
+    Route::resource('/account', 'Admin\Client\AccountController', ['only' =>['create', 'store'], 'as' => 'admin']);
+
+    Route::resource('/user', 'Admin\Client\UserController', ['only' =>['create', 'store'], 'as' => 'admin']);
 });

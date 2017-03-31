@@ -1,19 +1,15 @@
 <?php
 
-namespace Revenda\Http\Controllers\Client;
+namespace Revenda\Http\Controllers\Admin\Client;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Revenda\Client\Endereco;
-use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
 
-class EnderecoController extends Controller
+class AccountController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:admin');
     }
 
     /**
@@ -31,14 +27,15 @@ class EnderecoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $conta  = null;
+        if(!session()->has('user')) {
+            abort(404);
+        }
 
-        if(Cache::has(Auth::user()->id))
-            $conta = Cache::get(Auth::user()->id);
+        $user = session('user');
 
-        return view('user.endereco')->with(['conta' => $conta]);
+        return view('admin.account.create')->with(['user' => $user]);
     }
 
     /**
@@ -49,24 +46,7 @@ class EnderecoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'rua' => 'required|min:2',
-            'numero' => 'required',
-            'bairro' => 'required|min:3',
-            'cep' => 'required|min:9|max:9',
-            'cidade' => 'required|min:4',
-            'estado' => 'required|min:2',
-            'ponto_referencia' => 'string|nullable',
-        ]);
-
-        $user = Auth::user();
-        $address = new Endereco($request->all());
-        $user->endereco()->save($address);
-
-        if(isset($request->idConta))
-            return redirect()->route('client.payment.create');
-
-        return redirect()->route('client.enderco.create')->withInput()->with(['flash_message' => 'Endereco salvo com sucesso']);
+        //
     }
 
     /**

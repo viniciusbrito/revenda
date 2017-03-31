@@ -73,13 +73,13 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group{{ $errors->has('ponto_referencia') ? ' has-error' : '' }}">
-                                        <label for="ponto_referencia">Ponto de referencia:</label>
-                                        <input type="text" id="ponto_referencia" name="ponto_referencia" value="{{ old('ponto_referencia') }}" class="form-control"/>
+                                    <div class="form-group{{ $errors->has('complemento') ? ' has-error' : '' }}">
+                                        <label for="complemento">Complemento:</label>
+                                        <input type="text" id="complemento" name="complemento" value="{{ old('complemento') }}" class="form-control"/>
 
-                                        @if ($errors->has('ponto_referencia'))
+                                        @if ($errors->has('complemento'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('ponto_referencia') }}</strong>
+                                                <strong>{{ $errors->first('complemento') }}</strong>
                                             </span>
                                         @endif
                                     </div>

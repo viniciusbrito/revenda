@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
         $usr = [
             'nome' => 'Vinícius Brito',
             'email' => 'vinicius.fernandes.brito@gmail.com',
+            'telefone' => '(66) 99931-7500',
             'cpf' => '022.181.461-26',
             'password' => bcrypt('senha123'),
             'remember_token' => str_random(10),
