@@ -4,12 +4,13 @@ namespace Revenda\Http\Controllers\Admin\Client;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Revenda\Client\User;
+use Illuminate\Support\Facades\Mail;
 use Revenda\CPanel\Conta;
-use Revenda\CPanel\Pacote;
 use Revenda\Http\Controllers\Controller;
+use Revenda\Mail\SendInvoice;
+use Revenda\Payment\Pagseguro;
 
-class AccountController extends Controller
+class PaymentController extends Controller
 {
     function __construct()
     {
@@ -33,10 +34,8 @@ class AccountController extends Controller
      */
     public function create($id)
     {
-        $user = User::findOrFail($id);
-        $pacotes = Pacote::all();
-
-        return view('admin.account.create')->with(['user' => $user, 'pacotes' => $pacotes]);
+        $conta = Conta::findOrFail($id);
+        return view('admin.payment.create')->with(['conta' => $conta]);
     }
 
     /**
@@ -47,35 +46,31 @@ class AccountController extends Controller
      */
     public function store($id, Request $request)
     {
-        if(!$id) {
-            return abort(404);
-        }
-        $user = User::findOrFail($id);
+        $conta = Conta::findOrFail($id);
+        $user = $conta->user;
+        $pagamento = new Pagseguro();
 
-        $this->validate($request, [
-            'dominio' => 'required',
-            'idPacote'  =>  'required|exists:pacotes,idPacote'
-        ]);
+        $resposta = $pagamento->criaPagamentoBoleto($user, $conta, $request->senderHash);
 
-        $pkt = Pacote::findOrFail($request->idPacote);
-
-        $username = explode('.', $request->dominio)[0];
-        $conta = Conta::where('usuario', $username)->first();
-        if($conta)
-            return back()->withInput()->withErrors(['dominio' => 'Problemas com usuario']);
+        if(!$resposta)
+            return view('admin.payment.create')->with(['conta' => $conta]);
 
         /*
-         * NEED A REPOSITORY PATTERN
-         * */
-        $conta = new Conta();
-        $conta->dominio = $request->dominio;
-        $conta->usuario = $username;
-        $conta->senha = str_random(8);
-        $conta->status_id = 1;
-        $conta->pacote_id = $pkt->idPacote;
-        $conta = $user->contas()->save($conta);
+         * NEED BE REFACTORED
+        */
+        $boletoLink = $resposta->getPaymentLink();
+        $boletoDownload = str_replace('print.jhtml', 'download_pdf.jhtml', $boletoLink);
+        $boletoCode = $resposta->getCode();
+        $boletoStorePath = storage_path().'/boletos/'.$boletoCode.'.pdf';
+        file_put_contents($boletoStorePath, fopen($boletoDownload, 'r'));
 
-        return redirect()->route('admin.payment.create', $conta->idConta);
+        Mail::to($user)->send(new SendInvoice($user, $conta, $boletoStorePath));
+
+        return view('admin.payment.create')->with([
+            'idUser' => $user->id,
+            'idConta' => $conta->idConta,
+            'message' => "Boleto enviado para o email: {$user->email}"
+        ]);
     }
 
     /**
@@ -84,14 +79,9 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($idUser, $idConta)
+    public function show($id)
     {
-        if(!$idConta) {
-            return abort(404);
-        }
-        $conta = Conta::findOrFail($idConta);
-        return view('admin.account.show', ['conta' => $conta]);
-
+        //
     }
 
     /**

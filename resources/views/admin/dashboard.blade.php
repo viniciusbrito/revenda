@@ -12,7 +12,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <p><a class="btn btn-primary btn-sm" href="{{route('admin.account.create')}}">Novo Conta</a></p>
+                            <p><a class="btn btn-primary btn-sm" href="{{route('admin.account.create',18)}}">Novo Conta</a></p>
                         </div>
                     </div>
                     <div class="row">

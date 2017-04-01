@@ -32,17 +32,19 @@ class Pagseguro extends Model
         $boleto->setSender()->setEmail($user->email);
         $boleto->setSender()->setDocument()->withParameters('CPF', $user->cpf);
 
-        $boleto->setSender()->setPhone()->withParameters(66, 992399414);
+        $area = explode(' ', $user->telefone)[0];
+        $num = explode(' ', $user->telefone)[1];
+        $boleto->setSender()->setPhone()->withParameters($area, $num);
 
         $boleto->setShipping()->setAddress()->withParameters(
-            $user->endereco->rua,
+            $user->endereco->logradouro,
             $user->endereco->numero,
             $user->endereco->bairro,
             $user->endereco->cep,
             $user->endereco->cidade,
             $user->endereco->estado,
             'BRA',
-            $user->endereco->ponto_referencia
+            $user->endereco->complemento
         );
 
         $boleto->setSender()->setHash($hash);

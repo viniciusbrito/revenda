@@ -66,8 +66,11 @@ class UserController extends Controller
             $user->endereco()->save(new Endereco($dados));
             return $user;
         });
+        /*
+         * NEED SEND AN E-MAIL TO USER WITH THE CREDENTIALS
+         * */
 
-        return redirect()->route('admin.account.create')->with(['user' => $user]);
+        return redirect()->route('admin.account.create', $user->id);
     }
 
     /**

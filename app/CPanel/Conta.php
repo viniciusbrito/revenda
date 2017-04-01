@@ -22,7 +22,7 @@ class Conta extends Model
 
     protected $dates = ['created_at', 'updated_at'];
 
-    public function usuario()
+    public function user()
     {
         return $this->belongsTo('Revenda\Client\User', 'user_id');
     }
