@@ -65,7 +65,7 @@ class UserController extends Controller
             $user = User::create($dados);
             $user->endereco()->save(new Endereco($dados));
             return $user;
-        });
+        }, 5);
         /*
          * NEED SEND AN E-MAIL TO USER WITH THE CREDENTIALS
          * */

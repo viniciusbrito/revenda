@@ -36,11 +36,12 @@ class CreateContasTable extends Migration
 
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->foreign('pacote_id')
                 ->references('idPacote')
-                ->on('pacotes');
+                ->on('pacotes')->onDelete('set null');
 
         });
     }

@@ -4,11 +4,13 @@ namespace Revenda\Http\Controllers\Admin\Client;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
 use Revenda\Mail\SendInvoice;
-use Revenda\Payment\Pagseguro;
+use Revenda\Payment\Pagamento;
+use Revenda\Payment\PagseguroBoleto;
 
 class PaymentController extends Controller
 {
@@ -48,9 +50,9 @@ class PaymentController extends Controller
     {
         $conta = Conta::findOrFail($id);
         $user = $conta->user;
-        $pagamento = new Pagseguro();
+        $transacao = new PagseguroBoleto();
 
-        $resposta = $pagamento->criaPagamentoBoleto($user, $conta, $request->senderHash);
+        $resposta = $transacao->gerar($user, $conta, $request->senderHash);
 
         if(!$resposta)
             return view('admin.payment.create')->with(['conta' => $conta]);
@@ -66,10 +68,20 @@ class PaymentController extends Controller
 
         Mail::to($user)->send(new SendInvoice($user, $conta, $boletoStorePath));
 
+        $pagamento = DB::transaction(function() use($conta, $resposta) {
+            return $conta->pagamentos()
+                ->save(new Pagamento([
+                    'codigo'  => $resposta->getCode(),
+                    'referencia'   => $resposta->getReference(),
+                    'status' => $resposta->getStatus(),
+            ]));
+        }, 5);
+
         return view('admin.payment.create')->with([
-            'idUser' => $user->id,
-            'idConta' => $conta->idConta,
-            'message' => "Boleto enviado para o email: {$user->email}"
+            'idUser'    => $user->id,
+            'idConta'   => $conta->idConta,
+            'pagamento' => $pagamento,
+            'message'   => "Boleto enviado para o email: {$user->email}"
         ]);
     }
 

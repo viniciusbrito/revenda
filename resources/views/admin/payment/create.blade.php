@@ -12,6 +12,22 @@
                             </div>
                         </div>
                     </div>
+                    <hr/>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Referência:</strong> {{$pagamento->referencia}}</li>
+                                <li class="list-group-item"><strong>Código:</strong> {{$pagamento->codigo}}</li>
+                                <li class="list-group-item"><strong>Status:</strong> {{$pagamento->status}}</li>
+                                <li class="list-group-item"><strong>Conta:</strong> {{$pagamento->conta->dominio}}</li>
+                                <li class="list-group-item"><strong>Usuário:</strong> {{$pagamento->conta->user->nome}}</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <hr/>
+
                     <div class="row">
                         <div class="col-sm-12">
                             <a href="{{route('admin.account.show',[$idUser, $idConta])}}" class="btn btn-sm btn-primary">Voltar</a>

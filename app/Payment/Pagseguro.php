@@ -2,68 +2,28 @@
 
 namespace Revenda\Payment;
 
-use Illuminate\Database\Eloquent\Model;
 use Log;
 use Revenda\Client\User;
 use Revenda\CPanel\Conta;
 
-class Pagseguro extends Model
+class Pagseguro
 {
+    protected $reference;
+
     public function __construct()
     {
         \PagSeguro\Library::initialize();
         \PagSeguro\Library::cmsVersion()->setName("Nome")->setRelease("1.0.0");
         \PagSeguro\Library::moduleVersion()->setName("Nome")->setRelease("1.0.0");
+
+        $this->reference = random_int(100, 9999);
     }
 
-    public function criaPagamentoBoleto(User $user, Conta $conta, $hash)
-    {
-        $boleto = new \PagSeguro\Domains\Requests\DirectPayment\Boleto();
-        $boleto->setMode('DEFAULT');
-        $boleto->setCurrency("BRL");
-        $boleto->addItems()->withParameters(
-            (string) $conta->pacote->idPacote,
-            $conta->pacote->nome,
-            1,
-            (float)$conta->pacote->valor
-        );
-        $boleto->setReference("LIBPHP000001-boleto");
-        $boleto->setSender()->setName($user->nome);
-        $boleto->setSender()->setEmail($user->email);
-        $boleto->setSender()->setDocument()->withParameters('CPF', $user->cpf);
-
-        $area = explode(' ', $user->telefone)[0];
-        $num = explode(' ', $user->telefone)[1];
-        $boleto->setSender()->setPhone()->withParameters($area, $num);
-
-        $boleto->setShipping()->setAddress()->withParameters(
-            $user->endereco->logradouro,
-            $user->endereco->numero,
-            $user->endereco->bairro,
-            $user->endereco->cep,
-            $user->endereco->cidade,
-            $user->endereco->estado,
-            'BRA',
-            $user->endereco->complemento
-        );
-
-        $boleto->setSender()->setHash($hash);
-
-        try {
-            $credential = \PagSeguro\Configuration\Configure::getAccountCredentials();
-            return $boleto->register($credential);
-        }
-        catch (Exception $e) {
-            Log::error($e->getMessage());
-            return false;
-        }
-    }
-
-    public function criaPagamentoCheckout()
+    public function gerarCheckout(User $user, Conta $conta)
     {
         $payment = new \PagSeguro\Domains\Requests\Payment();
         $payment->setCurrency("BRL");
-        $payment->setReference("BLT001");
+        $payment->setReference($this->reference);
         $payment->setRedirectUrl("http://cpanel-api.app/redirect");
 
         $payment->addItems()->withParameters(
@@ -113,43 +73,6 @@ class Pagseguro extends Model
             return $result;
         } catch (Exception $e) {
             die($e->getMessage());
-        }
-    }
-
-    public function criaAssinatura(Conta $conta)
-    {
-        $preApproval = new \PagSeguro\Domains\Requests\PreApproval();
-        $preApproval->setCurrency("BRL");
-        $preApproval->setRedirectUrl(route('redirect'));
-        $preApproval->setReviewUrl("http://cpanel-api.app/review/");
-        $preApproval->setPreApproval()->setCharge('auto');
-        $preApproval->setReference("REF123");
-
-        $preApproval->setSender()->setName($conta->nome);
-        $preApproval->setSender()->setEmail($conta->email);
-        $preApproval->setSender()->setPhone()->withParameters(11, 56273440);
-
-        $preApproval->setPreApproval()->setName($conta->pacote->nome);
-
-        if($conta->pacote->periodo == 'MONTHLY')
-            $preApproval->setPreApproval()->setDetails("Assinatura do plano Basico de cobrança mensal.");
-        elseif($conta->pacote->periodo == 'TRIMONTHLY')
-            $preApproval->setPreApproval()->setDetails("Assinatura do plano Basico de cobrança trimestral.");
-        elseif($conta->pacote->periodo == 'YEARLY')
-            $preApproval->setPreApproval()->setDetails("Assinatura do plano Basico de cobrança anual.");
-
-        $preApproval->setPreApproval()->setAmountPerPayment($conta->pacote->valor);
-        $preApproval->setPreApproval()->setPeriod($conta->pacote->periodo);
-
-        try {
-
-            return $response = $preApproval->register(
-                \PagSeguro\Configuration\Configure::getAccountCredentials()
-            );
-
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return false;
         }
     }
 

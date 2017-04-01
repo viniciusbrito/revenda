@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
-use Revenda\Payment\Pagseguro;
+use Revenda\Payment\PagseguroBoleto;
 
 class PaymentController extends Controller
 {
@@ -58,8 +58,8 @@ class PaymentController extends Controller
         else
             return view('user.pagamento');
 
-        $pagamento = new Pagseguro();
-        $retorno = $pagamento->criaPagamentoBoleto(Auth::user(), $conta, $request->senderHash);
+        $pagamento = new PagseguroBoleto();
+        $retorno = $pagamento->gerar(Auth::user(), $conta, $request->senderHash);
         if(!$retorno)
             return view('user.pagamento')->with(['conta' => $conta]);
 

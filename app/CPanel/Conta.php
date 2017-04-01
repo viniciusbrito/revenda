@@ -45,4 +45,9 @@ class Conta extends Model
                 return 'Inativo';
         }
     }
+
+    public function pagamentos()
+    {
+        return $this->hasMany('Revenda\Payment\Pagamento', 'conta_id', $this->primaryKey);
+    }
 }
