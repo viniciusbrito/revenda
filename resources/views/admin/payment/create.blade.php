@@ -30,7 +30,7 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <a href="{{route('admin.account.show',[$idUser, $idConta])}}" class="btn btn-sm btn-primary">Voltar</a>
+                            <a href="{{route('admin.account.show',[$idUser, $idConta])}}" class="btn btn-sm btn-primary">Continuar</a>
                         </div>
                     </div>
                 @else

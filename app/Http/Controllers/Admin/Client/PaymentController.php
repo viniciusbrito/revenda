@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
 use Revenda\Mail\SendInvoice;
+use Revenda\Notifications\InvoiceCreated;
 use Revenda\Payment\Pagamento;
 use Revenda\Payment\PagseguroBoleto;
 
@@ -76,6 +77,8 @@ class PaymentController extends Controller
                     'status' => $resposta->getStatus(),
             ]));
         }, 5);
+
+        $pagamento->notify(new InvoiceCreated($pagamento));
 
         return view('admin.payment.create')->with([
             'idUser'    => $user->id,
