@@ -41,7 +41,7 @@ class CreateContasTable extends Migration
 
             $table->foreign('pacote_id')
                 ->references('idPacote')
-                ->on('pacotes')->onDelete('set null');
+                ->on('pacotes');
 
         });
     }
