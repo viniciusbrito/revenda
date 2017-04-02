@@ -3,6 +3,7 @@
 namespace Revenda\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Revenda\Client\User;
 use Revenda\Http\Controllers\Controller;
 
 class AdminController extends Controller
@@ -16,6 +17,6 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard',['users' => User::all()]);
     }
 }

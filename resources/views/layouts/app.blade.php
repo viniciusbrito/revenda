@@ -36,12 +36,12 @@
 
                     <!-- Branding Image -->
                     @if(Auth::guard('admin')->check())
-                        <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
-                            {{ config('app.name', 'Laravel') }}
+                        <a href="{{ route('admin.dashboard') }}">
+                            <img class="navbar-brand" src="https://dottcon.com/_biblioteca/_imagens/imgLogoEC-2.png" alt="Dottcon - Tecnologia & Consultoria"/>
                         </a>
                     @else
-                        <a class="navbar-brand" href="{{ url('/') }}">
-                            {{ config('app.name', 'Laravel') }}
+                        <a href="{{ url('/') }}">
+                            <img class="navbar-brand" src="https://dottcon.com/_biblioteca/_imagens/imgLogoEC-2.png" alt="Dottcon - Tecnologia & Consultoria"/>
                         </a>
                     @endif
                 </div>

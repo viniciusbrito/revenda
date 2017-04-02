@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', ['as' =>'home', 'uses' => 'HomeController@index']);
+Route::get('/', 'HomeController@index')->name('home');
 
 /*Creating Routes for Auth*/
 Auth::routes();
@@ -65,10 +65,7 @@ Route::group(['prefix' => 'admin'], function(){
     });
 
     /*Logout route*/
-    Route::get('/logout', [
-        'as' => 'admin.logout',
-        'uses' => 'Auth\AdminLoginController@logout'
-    ]);
+    Route::get('/logout', ['as' => 'admin.logout','uses' => 'Auth\AdminLoginController@logout']);
 
     /*Routes to send token and create new password*/
     Route::group(['prefix' => 'password', 'namespace' => 'Auth'], function(){
@@ -97,12 +94,9 @@ Route::group(['prefix' => 'admin'], function(){
     });
 
     /*Admin's Dashboard*/
-    Route::get('/', [
-        'as' => 'admin.dashboard',
-        'uses' => 'Admin\AdminController@index'
-    ]);
+    Route::get('/', ['as' => 'admin.dashboard', 'uses' => 'Admin\AdminController@index']);
 
-    Route::resource('/user', 'Admin\Client\UserController', ['only' =>['create', 'store', 'show'], 'as' => 'admin']);
+    Route::resource('/user', 'Admin\Client\UserController', ['except' =>['destroy', 'index'], 'as' => 'admin']);
 
     Route::resource('/user/{user}/account', 'Admin\Client\AccountController', ['only' =>['create', 'store', 'show'], 'as' => 'admin']);
 

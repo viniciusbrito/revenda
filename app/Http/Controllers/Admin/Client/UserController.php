@@ -81,7 +81,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        if(!$id) {
+            return abort(404);
+        }
+        else {
+            $user = User::findOrFail($id);
+            return view('admin.user.show', ['user' => $user]);
+        }
     }
 
     /**
@@ -92,7 +98,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(!$id) {
+            return abort(404);
+        }
+        else {
+            $user = User::findOrFail($id);
+            return view('admin.user.edit', ['user' => $user]);
+        }
     }
 
     /**
@@ -104,7 +116,34 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'nome' => 'required|min:5|max:255',
+            'email' => 'required|email|max:255|unique:users,email,'.$id,
+            'cpf' => 'required|max:16|unique:users,cpf,'.$id,
+            'telefone' => 'required|min:8',
+            'logradouro' => 'required|min:2',
+            'numero' => 'required',
+            'bairro' => 'required|min:3',
+            'cep' => 'required|min:9|max:9',
+            'cidade' => 'required|min:4',
+            'estado' => 'required|min:2',
+            'complemento' => 'string|nullable',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user = DB::transaction(function() use($request, $user) {
+            $user->update($request->all());
+            if($user->endereco) {
+                $endereco = $user->endereco;
+                $endereco->fill($request->all());
+                $endereco->update();
+            }
+            else {
+                $user->endereco()->save(new Endereco($request->all()));
+            }
+            return $user;
+        }, 3);
+        return redirect()->route('admin.user.show', ['user' => $user]);
     }
 
     /**

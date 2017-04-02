@@ -4,6 +4,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                @if(isset($pagamento))
+                    {!! Breadcrumbs::render('admin.payment.create', $pagamento->conta) !!}
+                @else
+                    {!! Breadcrumbs::render('admin.payment.create', $conta) !!}
+                @endif
                 @if(isset($message))
                     <div class="row">
                         <div class="col-sm-12">
