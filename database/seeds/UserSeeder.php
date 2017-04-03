@@ -12,9 +12,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         $usr = [
-            'nome' => 'Vinícius Brito',
-            'email' => 'vinicius.fernandes.brito@gmail.com',
-            'telefone' => '(66) 99931-7500',
+            'nome' => 'Test User',
+            'email' => 'testuser@sandbox.pagseguro.com.br',
+            'telefone' => '11 111223300',
             'cpf' => '022.181.461-26',
             'password' => bcrypt('senha123'),
             'remember_token' => str_random(10),

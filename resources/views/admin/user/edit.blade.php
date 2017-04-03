@@ -7,7 +7,7 @@
                 {!! Breadcrumbs::render('admin.user.edit', $user) !!}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Novo Usuário</h3>
+                        <h3 class="panel-title">Atualizar Usuário</h3>
                     </div>
 
                     <div class="panel-body">

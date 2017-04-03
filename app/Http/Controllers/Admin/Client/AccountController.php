@@ -34,9 +34,11 @@ class AccountController extends Controller
     public function create($id)
     {
         $user = User::findOrFail($id);
-        $pacotes = Pacote::all();
-
-        return view('admin.account.create')->with(['user' => $user, 'pacotes' => $pacotes]);
+        if($user->endereco) {
+            $pacotes = Pacote::all();
+            return view('admin.account.create')->with(['user' => $user, 'pacotes' => $pacotes]);
+        }
+        return redirect()->route('admin.user.edit', $user->id);
     }
 
     /**
