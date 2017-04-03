@@ -67,10 +67,10 @@ class InvoiceCreated extends Notification
     public function toSlack($notifiable)
     {
         $pgt = $this->pagamento;
-
+        $msg = 'Um novo boleto foi gerado! Ambiente: '.env('APP_ENV');
         return (new SlackMessage)
             ->success()
-            ->content('Um novo boleto foi gerado!')
+            ->content($msg)
             ->attachment(function($attachment) use ($pgt) {
                 $attachment->title('Novo Boleto: '.$pgt->referencia)
                     ->fields([

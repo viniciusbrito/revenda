@@ -59,4 +59,23 @@ class PagseguroBoleto extends Pagseguro
             return false;
         }
     }
+
+    public function buscar($code = null)
+    {
+        if($code) {
+
+            try {
+                return  \PagSeguro\Services\Transactions\Search\Code::search(
+                    \PagSeguro\Configuration\Configure::getAccountCredentials(),
+                    $code
+                );
+            }
+            catch(Exception $e) {
+                Log::error($e->getMessage());
+                return false;
+            }
+        }
+        return false;
+
+    }
 }

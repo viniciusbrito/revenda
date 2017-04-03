@@ -2,6 +2,7 @@
 
 namespace Revenda\Http\Controllers\Admin\Client;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -117,9 +118,20 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $idConta, $idPagamento)
     {
-        //
+        $pagamento = Pagamento::findOrFail($idPagamento);
+
+        $boleto = new PagseguroBoleto();
+        $resposta = $boleto->buscar($pagamento->codigo);
+
+        if(!$resposta)
+            return '';
+
+        $pagamento->status = $resposta->getStatus();
+        $pagamento->updated_at = Carbon::now();
+        $pagamento->save();
+        return redirect()->route('admin.account.show', [$pagamento->conta->user->id, $pagamento->conta->idConta]);
     }
 
     /**

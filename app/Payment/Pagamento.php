@@ -26,6 +26,26 @@ class Pagamento extends Model
         return $this->belongsTo('Revenda\CPanel\Conta', 'conta_id');
     }
 
+    public function status()
+    {
+        switch ($this->status) {
+            case 1:
+                return 'Aguardando pagamento';
+            case 2:
+                return 'Em análise';
+            case 3:
+                return 'Paga';
+            case 4:
+                return 'Disponível';
+            case 5:
+                return 'Em disputa';
+            case 6:
+                return 'Devolvida';
+            case 7:
+                return 'Cancelada';
+        }
+    }
+
     public function routeNotificationForSlack()
     {
         return $this->slack_webhook_url;
