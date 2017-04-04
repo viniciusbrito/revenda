@@ -52,7 +52,7 @@ Breadcrumbs::register('admin.account.create', function($breadcrumbs, $user)
 Breadcrumbs::register('admin.account.show', function($breadcrumbs, $conta)
 {
     $breadcrumbs->parent('admin.user.show', $conta->user);
-    $breadcrumbs->push('Informaçẽs da conta', route('admin.account.show', [$conta->user->id, $conta->idConta]));
+    $breadcrumbs->push('Informações da conta', route('admin.account.show', [$conta->user->id, $conta->idConta]));
 });
 
 /*

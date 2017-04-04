@@ -42,13 +42,6 @@
             </div>
             <div class="col-sm-5">
                 <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3 tex-center">
-                        <div class="form-group">
-                            <a class="btn btn-lg btn-block btn-success" href="{{route('admin.payment.create', $conta->idConta)}}">Gerar Novo Boleto</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -73,18 +66,25 @@
                                     </li>
                                 </ul>
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 col-xs-6">
                                         <form method="POST" action="{{route('admin.payment.update', [$conta->idConta, $conta->pagamentos()->orderBy('created_at', 'desc')->first()->idPagamento])}}">
                                             {{csrf_field()}}
                                             {{method_field('PUT')}}
                                             <input class="btn btn-sm btn-info"  type="submit" id="atualizar" name="submit" value="Atualizar"/>
                                         </form>
                                     </div>
-                                    <div class="col-sm-6 text-right">
+                                    <div class="col-sm-6 col-xs-6 text-right">
                                         <a class="btn btn-sm btn-primary" href="{{route('admin.payment.index', $conta->idConta)}}">Ver todos</a>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 tex-center">
+                        <div class="form-group">
+                            <a class="btn btn-lg btn-block btn-success" href="{{route('admin.payment.create', $conta->idConta)}}">Gerar Novo Boleto</a>
                         </div>
                     </div>
                 </div>
