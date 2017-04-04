@@ -78,4 +78,23 @@ class PagseguroBoleto extends Pagseguro
         return false;
 
     }
+
+    public function notificacao()
+    {
+        try {
+            if (\PagSeguro\Helpers\Xhr::hasPost()) {
+                $response = \PagSeguro\Services\Transactions\Notification::check(
+                    \PagSeguro\Configuration\Configure::getAccountCredentials()
+                );
+                return $response;
+            }
+            else {
+                throw new \InvalidArgumentException($_POST);
+            }
+        }
+        catch (Exception $e) {
+            Log::error($e->getMessage());
+            return false;
+        }
+    }
 }

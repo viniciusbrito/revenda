@@ -13,8 +13,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Revenda\Events\SomeEvent' => [
-            'Revenda\Listeners\EventListener',
+        'Revenda\Events\PaymentNotify' => [
+            'Revenda\Listeners\PaymentUpdate',
+            'Revenda\Listeners\NewAccountUpdate',
+            'Revenda\Listeners\NotifySlack',
         ],
     ];
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Revenda\CPanel\Conta;
+use Revenda\Events\PaymentNotify;
 use Revenda\Http\Controllers\Controller;
 use Revenda\Mail\SendInvoice;
 use Revenda\Notifications\InvoiceCreated;
@@ -16,9 +17,12 @@ use Revenda\Payment\PagseguroBoleto;
 
 class PaymentController extends Controller
 {
+    /**
+     *
+     */
     function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware('auth:admin')->except('notify');
     }
 
     /**
@@ -136,6 +140,36 @@ class PaymentController extends Controller
         $pagamento->save();
         //return redirect()->route('admin.account.show', [$pagamento->conta->user->id, $pagamento->conta->idConta]);
         return back();
+    }
+
+    /**
+     * Listen to payments received notifications
+     *
+     * @param Request $request
+     * @return array|\Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function notify(Request $request)
+    {
+        $boleto = new PagseguroBoleto();
+        $result = $boleto->notificacao();
+
+        if(!$result)
+            return response(404);
+
+        $transacao = [
+            'tipo' => $request['notificationType'],
+            'email' => $result->getSender()->getEmail(),
+            'codigo' => $result->getCode(),
+            'status' => $result->getStatus(),
+            'data' => Carbon::createFromFormat("Y-m-d\TH:i:s.uP", $result->getLasteventdate())->toDateTimeString()
+        ];
+
+        $pagamento = Pagamento::where('codigo', $transacao['codigo'])->first();
+        /*Fires event of payment received*/
+        if($transacao['status'] == 3)
+            event(new PaymentNotify($pagamento, $transacao));
+
+        return response()->json($transacao, 202);
     }
 
     /**

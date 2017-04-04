@@ -93,7 +93,7 @@ class Pagseguro
         }
     }
 
-    public function notificacao($tipo = null)
+    public function notificacoes($tipo = null)
     {
         switch($tipo) {
 

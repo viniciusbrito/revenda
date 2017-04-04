@@ -36,13 +36,13 @@ class Conta extends Model
     {
         switch ($this->status_id) {
             case 1:
-                return 'No Carrinho';
+                return 'Aguardando Pagamento';
             case 2:
-                return 'Aguardando pagamento';
-            case 3:
                 return 'Ativo';
-            case 4:
+            case 3:
                 return 'Inativo';
+            case 4:
+                return 'Pagamento Atrasado';
         }
     }
 
