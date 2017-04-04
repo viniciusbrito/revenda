@@ -51,26 +51,33 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <strong>Código:</strong> {{$conta->pagamentos()->first()->codigo}}
+                            <strong>Código:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->codigo}}
                         </li>
                         <li class="list-group-item">
-                            <strong>Referência:</strong> {{$conta->pagamentos()->first()->referencia}}
+                            <strong>Referência:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->referencia}}
                         </li>
                         <li class="list-group-item">
-                            <strong>Status:</strong> {{$conta->pagamentos()->first()->status()}}
+                            <strong>Status:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->status()}}
                         </li>
                         <li class="list-group-item">
-                            <strong>Criado em:</strong> {{$conta->pagamentos()->first()->created_at->format('d/m/Y - H:i:s')}}
+                            <strong>Criado em:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->created_at->format('d/m/Y - H:i:s')}}
                         </li>
                         <li class="list-group-item">
-                            <strong>Última atualização:</strong> {{$conta->pagamentos()->first()->updated_at->format('d/m/Y - H:i:s')}}
+                            <strong>Última atualização:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->updated_at->format('d/m/Y - H:i:s')}}
                         </li>
                     </ul>
-                    <form method="POST" action="{{route('admin.payment.update', [$conta->idConta, $conta->pagamentos()->first()->idPagamento])}}">
-                        {{csrf_field()}}
-                        {{method_field('PUT')}}
-                        <input class="btn btn-sm btn-info"  type="submit" id="atualizar" name="submit" value="Atualizar"/>
-                    </form>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form method="POST" action="{{route('admin.payment.update', [$conta->idConta, $conta->pagamentos()->orderBy('created_at', 'desc')->first()->idPagamento])}}">
+                                {{csrf_field()}}
+                                {{method_field('PUT')}}
+                                <input class="btn btn-sm btn-info"  type="submit" id="atualizar" name="submit" value="Atualizar"/>
+                            </form>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <a class="btn btn-sm btn-primary" href="{{route('admin.payment.index', $conta->idConta)}}">Ver todos</a>
+                        </div>
+                    </div>
                 </div>
             </div>
                 @endif

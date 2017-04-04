@@ -100,5 +100,5 @@ Route::group(['prefix' => 'admin'], function(){
 
     Route::resource('/user/{user}/account', 'Admin\Client\AccountController', ['only' =>['create', 'store', 'show'], 'as' => 'admin']);
 
-    Route::resource('/account/{account}/payment', 'Admin\Client\PaymentController', ['only' =>['create', 'store', 'update'], 'as' => 'admin']);
+    Route::resource('/account/{account}/payment', 'Admin\Client\PaymentController', ['only' =>['create', 'store', 'update', 'index', 'show'], 'as' => 'admin']);
 });

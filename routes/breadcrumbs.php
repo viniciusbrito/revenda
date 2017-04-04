@@ -56,10 +56,28 @@ Breadcrumbs::register('admin.account.show', function($breadcrumbs, $conta)
 });
 
 /*
-* Breadcrumb to Admin's Page Account info
+* Breadcrumb to Admin's Page Payment Create
 */
 Breadcrumbs::register('admin.payment.create', function($breadcrumbs, $conta)
 {
     $breadcrumbs->parent('admin.account.show', $conta);
     $breadcrumbs->push('Pagamento', route('admin.payment.create', $conta->idConta));
+});
+
+/*
+ * Breadcrumb to Admin's Page Payment List
+ */
+Breadcrumbs::register('admin.payment.index', function($breadcrumbs, $conta)
+{
+    $breadcrumbs->parent('admin.account.show', $conta);
+    $breadcrumbs->push('Pagamentos', route('admin.payment.index', $conta->idConta));
+});
+
+/*
+ * Breadcrumb to Admin's Page Payment info
+ */
+Breadcrumbs::register('admin.payment.show', function($breadcrumbs, $pagamento)
+{
+    $breadcrumbs->parent('admin.payment.index', $pagamento->conta);
+    $breadcrumbs->push($pagamento->codigo, route('admin.payment.show', [$pagamento->conta->idConta, $pagamento->idPagamento]));
 });

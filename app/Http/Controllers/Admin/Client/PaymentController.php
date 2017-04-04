@@ -26,9 +26,11 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($idConta)
     {
-        //
+        $conta = Conta::findOrFail($idConta);
+        $pagamentos = $conta->pagamentos()->orderBy('created_at', 'desc')->paginate(2);
+        return view('admin.payment.index')->with(['pagamentos' => $pagamentos]);
     }
 
     /**
@@ -81,12 +83,7 @@ class PaymentController extends Controller
 
         $pagamento->notify(new InvoiceCreated($pagamento));
 
-        return view('admin.payment.create')->with([
-            'idUser'    => $user->id,
-            'idConta'   => $conta->idConta,
-            'pagamento' => $pagamento,
-            'message'   => "Boleto enviado para o email: {$user->email}"
-        ]);
+        return redirect()->route('admin.payment.show');
     }
 
     /**
@@ -97,7 +94,13 @@ class PaymentController extends Controller
      */
     public function show($id)
     {
-        //
+        $pagamento = Pagamento::findOrFail($id);
+        return view('admin.payment.show')->with([
+            'idUser'    => $pagamento->conta->user->id,
+            'idConta'   => $pagamento->conta->idConta,
+            'pagamento' => $pagamento,
+            'message'   => "Boleto enviado para o email: {$pagamento->conta->user->email}"
+        ]);
     }
 
     /**
@@ -131,7 +134,8 @@ class PaymentController extends Controller
         $pagamento->status = $resposta->getStatus();
         $pagamento->updated_at = Carbon::now();
         $pagamento->save();
-        return redirect()->route('admin.account.show', [$pagamento->conta->user->id, $pagamento->conta->idConta]);
+        //return redirect()->route('admin.account.show', [$pagamento->conta->user->id, $pagamento->conta->idConta]);
+        return back();
     }
 
     /**

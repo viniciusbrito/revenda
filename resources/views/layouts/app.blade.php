@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="https://dottcon.com/_biblioteca/_imagens/favicon.ico" type="image/x-icon"/>
 
     <!-- Scripts -->
     <script>
