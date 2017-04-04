@@ -83,7 +83,7 @@ class PaymentController extends Controller
 
         $pagamento->notify(new InvoiceCreated($pagamento));
 
-        return redirect()->route('admin.payment.show');
+        return redirect()->route('admin.payment.show', [$pagamento->conta->idConta, $pagamento->idPagamento]);
     }
 
     /**
