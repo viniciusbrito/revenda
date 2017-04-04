@@ -43,7 +43,7 @@ Breadcrumbs::register('admin.user.edit', function($breadcrumbs, $user)
 Breadcrumbs::register('admin.account.create', function($breadcrumbs, $user)
 {
     $breadcrumbs->parent('admin.user.show', $user);
-    $breadcrumbs->push('Adicionar pacote', route('admin.account.create', $user->id));
+    $breadcrumbs->push('Adicionar conta', route('admin.account.create', $user->id));
 });
 
 /*
@@ -52,7 +52,7 @@ Breadcrumbs::register('admin.account.create', function($breadcrumbs, $user)
 Breadcrumbs::register('admin.account.show', function($breadcrumbs, $conta)
 {
     $breadcrumbs->parent('admin.user.show', $conta->user);
-    $breadcrumbs->push('Informaçẽs do pacote', route('admin.account.show', [$conta->user->id, $conta->idConta]));
+    $breadcrumbs->push('Informaçẽs da conta', route('admin.account.show', [$conta->user->id, $conta->idConta]));
 });
 
 /*

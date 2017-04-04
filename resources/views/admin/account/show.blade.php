@@ -11,7 +11,7 @@
             <div class="col-sm-5 col-sm-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{$conta->dominio}} - {{$conta->pacote->nome}}</h3>
+                        <h3 class="panel-title">Informações da conta</h3>
                     </div>
                     <div class="panel-body">
                         <ul class="list-group">
@@ -41,47 +41,54 @@
                 </div>
             </div>
             <div class="col-sm-5">
-                @if(count($conta->pagamentos) <= 0)
-                    <a class="btn btn-sm btn-primary" href="{{route('admin.payment.create', $conta->idConta)}}">Pagamento</a>
-                @else
-                    <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Status do último pagamento gerado</h3>
-                </div>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Código:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->codigo}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Referência:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->referencia}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Status:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->status()}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Criado em:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->created_at->format('d/m/Y - H:i:s')}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Última atualização:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->updated_at->format('d/m/Y - H:i:s')}}
-                        </li>
-                    </ul>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <form method="POST" action="{{route('admin.payment.update', [$conta->idConta, $conta->pagamentos()->orderBy('created_at', 'desc')->first()->idPagamento])}}">
-                                {{csrf_field()}}
-                                {{method_field('PUT')}}
-                                <input class="btn btn-sm btn-info"  type="submit" id="atualizar" name="submit" value="Atualizar"/>
-                            </form>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 tex-center">
+                        <div class="form-group">
+                            <a class="btn btn-lg btn-block btn-success" href="{{route('admin.payment.create', $conta->idConta)}}">Gerar Novo Boleto</a>
                         </div>
-                        <div class="col-sm-6 text-right">
-                            <a class="btn btn-sm btn-primary" href="{{route('admin.payment.index', $conta->idConta)}}">Ver todos</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Status do último pagamento gerado</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <strong>Código:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->codigo}}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Referência:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->referencia}}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Status:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->status()}}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Criado em:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->created_at->format('d/m/Y - H:i:s')}}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Última atualização:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->updated_at->format('d/m/Y - H:i:s')}}
+                                    </li>
+                                </ul>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <form method="POST" action="{{route('admin.payment.update', [$conta->idConta, $conta->pagamentos()->orderBy('created_at', 'desc')->first()->idPagamento])}}">
+                                            {{csrf_field()}}
+                                            {{method_field('PUT')}}
+                                            <input class="btn btn-sm btn-info"  type="submit" id="atualizar" name="submit" value="Atualizar"/>
+                                        </form>
+                                    </div>
+                                    <div class="col-sm-6 text-right">
+                                        <a class="btn btn-sm btn-primary" href="{{route('admin.payment.index', $conta->idConta)}}">Ver todos</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-                @endif
-        </div>
         </div>
     </div>
 @endsection
