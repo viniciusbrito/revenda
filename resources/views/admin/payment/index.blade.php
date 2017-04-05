@@ -6,7 +6,20 @@
                 {!! Breadcrumbs::render('admin.payment.index', $pagamentos->first()->conta) !!}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Lista de pagamentos</h3>
+                        <div class="row">
+                            <div class="col-sm-8 col-xs-6">
+                                <h3 class="panel-title">Lista de pagamentos</h3>
+                            </div>
+                            <div class="col-sm-4 col-xs-6 text-right">
+                                <form id="filtrar-form" name="filtrar-form" action="{{ route('admin.payment.index', $pagamentos->first()->conta) }}" method="GET">
+                                    <select onchange="document.getElementById('filtrar-form').submit();" class="form-control input-sm" name="filter" id="filter">
+                                        <option {{(isset($filter) && $filter == 'all')? 'selected' : ''}} value="all">Todos os pagamentos</option>
+                                        <option {{(isset($filter) && $filter == 'pgt')? 'selected' : ''}}  value="pgt">Pagamentos confirmados</option>
+                                        <option {{(isset($filter) && $filter == 'agp')? 'selected' : ''}}  value="agp">Aguardando pagamento</option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-body">
                         @foreach($pagamentos as $pagamento)
@@ -41,7 +54,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12 text-center">
-                {!! $pagamentos->links() !!}
+                {!! $pagamentos->appends(['filter'=>$filter])->links() !!}
             </div>
         </div>
     </div>
