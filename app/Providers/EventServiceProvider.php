@@ -15,7 +15,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'Revenda\Events\PaymentNotify' => [
             'Revenda\Listeners\PaymentUpdate',
-            'Revenda\Listeners\NewAccountUpdate',
+            'Revenda\Listeners\AccountUpdate',
             'Revenda\Listeners\PaymentSendNotify',
         ],
     ];

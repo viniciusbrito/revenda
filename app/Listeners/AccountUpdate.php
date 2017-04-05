@@ -6,7 +6,7 @@ use Revenda\Events\PaymentNotify;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NewAccountUpdate
+class AccountUpdate
 {
     /**
      * Create the event listener.
@@ -27,7 +27,11 @@ class NewAccountUpdate
     public function handle(PaymentNotify $event)
     {
         $conta = $event->getPagamento()->conta;
-        if($conta->nova_conta)
-            $conta->update(['status_id' => 2]);
+        if($conta->nova_conta) {
+            $conta->status_id = 2;
+            $conta->nova_conta = 0;
+        }
+        $conta->prox_pagamento = $conta->prox_pagamento->addMonth(1);
+        $conta->save();
     }
 }
