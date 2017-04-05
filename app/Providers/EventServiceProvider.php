@@ -16,7 +16,7 @@ class EventServiceProvider extends ServiceProvider
         'Revenda\Events\PaymentNotify' => [
             'Revenda\Listeners\PaymentUpdate',
             'Revenda\Listeners\NewAccountUpdate',
-            'Revenda\Listeners\NotifySlack',
+            'Revenda\Listeners\PaymentSendNotify',
         ],
     ];
 

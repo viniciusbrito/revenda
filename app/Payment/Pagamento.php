@@ -50,4 +50,10 @@ class Pagamento extends Model
     {
         return $this->slack_webhook_url;
     }
+
+    public function routeNotificationForMail()
+    {
+        //return $this->conta->user->email;
+        return 'vinicius.fernandes.brito@gmail.com';
+    }
 }

@@ -33,7 +33,7 @@ class PaymentReceived extends Notification
      */
     public function via($notifiable)
     {
-        return ['slack'];
+        return ['slack', 'mail'];
     }
 
     /**
@@ -45,9 +45,12 @@ class PaymentReceived extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('Confirmação de pagamento')
+                    ->greeting("Olá {$this->pagamento->conta->user->nome}!")
+                    ->line('Recebemos o seu pagamento.')
+                    ->line('Referênica: '.$this->pagamento->referencia)
+                    ->line('Valor: R$'.$this->pagamento->conta->pacote->valor)
+                    ->line('Data: '.$this->pagamento->updated_at->format('d/m/Y'));
     }
 
     /**
@@ -71,14 +74,15 @@ class PaymentReceived extends Notification
             ->success()
             ->content($msg)
             ->attachment(function($attachment) use ($pgt) {
-                $attachment->title('Novo Boleto: '.$pgt->referencia)
+                $attachment->title('Boleto Pago: '.$pgt->referencia)
                     ->fields([
                         'Código:' => $pgt->codigo,
                         'Usuário:' => $pgt->conta->user->email,
                         'Referência:' => $pgt->referencia,
                         'Valor:' => 'R$'.$pgt->conta->pacote->valor,
                         'Status:' => $pgt->status,
-                        'Data:' => $pgt->created_at->formatLocalized('%d %B %Y'),
+                        'Data de criação:' => $pgt->created_at->formatLocalized('%d %B %Y'),
+                        'Data de atualização:' => $pgt->updated_at->formatLocalized('%d %B %Y'),
                     ]);
             });
 

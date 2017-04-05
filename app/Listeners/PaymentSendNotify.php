@@ -9,7 +9,7 @@ use Revenda\Notifications\InvoiceCreated;
 use Revenda\Notifications\PaymentReceived;
 use Log;
 
-class NotifySlack
+class PaymentSendNotify
 {
     /**
      * Create the event listener.
