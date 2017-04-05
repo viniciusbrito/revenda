@@ -36,9 +36,9 @@ class PaymentController extends Controller
 
         $filter = isset($request->filter)? $request->filter : 'all';
 
-        $status = ['all' => [1,2,3], 'pgt' => 3, 'agp' => 1];
+        $status = ['all' => [1,2,3], 'pgt' => [3], 'agp' => [1]];
 
-        $pagamentos = $conta->pagamentos()->where('status', $status[$filter])->orderBy('created_at', 'desc')->paginate(2);
+        $pagamentos = $conta->pagamentos()->whereIn('status', $status[$filter])->orderBy('created_at', 'desc')->paginate(2);
 
         return view('admin.payment.index')->with(['pagamentos' => $pagamentos, 'filter' => $filter]);
     }
