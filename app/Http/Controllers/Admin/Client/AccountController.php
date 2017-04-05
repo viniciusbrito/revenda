@@ -2,6 +2,7 @@
 
 namespace Revenda\Http\Controllers\Admin\Client;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Revenda\Client\User;
@@ -75,6 +76,7 @@ class AccountController extends Controller
         $conta->senha = str_random(8);
         $conta->status_id = 1;
         $conta->pacote_id = $pkt->idPacote;
+        $conta->prox_pagamento = Carbon::now()->addMonth(1);
         $conta = $user->contas()->save($conta);
 
         return redirect()->route('admin.payment.create', $conta->idConta);

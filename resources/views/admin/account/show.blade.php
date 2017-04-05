@@ -41,8 +41,14 @@
                 </div>
             </div>
             <div class="col-sm-5">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Data da próxima conbrança:</strong> {{$conta->prox_pagamento->format('d/m/Y')}}
+                    </li>
+                </ul>
                 <div class="row">
-                    <div class="col-sm-12">
+                    @if(count($conta->pagamentos))
+                        <div class="col-sm-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Status do último pagamento gerado</h3>
@@ -80,14 +86,18 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3 tex-center">
-                        <div class="form-group">
-                            <a class="btn btn-lg btn-block btn-success" href="{{route('admin.payment.create', $conta->idConta)}}">Gerar Novo Boleto</a>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 tex-center">
+                            <div class="form-group">
+                                <a class="btn btn-lg btn-block btn-success {{(!count($conta->pagamentos) || $conta->prox_pagamento->subDay(5)->isToday() || $conta->prox_pagamento->subDay(5)->isPast())? ''  : 'disabled'}}"
+                                   href="{{route('admin.payment.create', $conta->idConta)}}">
+                                    Gerar Novo Boleto
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>

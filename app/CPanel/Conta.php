@@ -2,17 +2,14 @@
 
 namespace Revenda\CPanel;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Conta extends Model
 {
-    protected $fillable = [
-        'dominio', 'usuario', 'senha', 'status_id', 'pacote_id'
-    ];
+    protected $fillable = ['dominio', 'usuario', 'senha', 'status_id', 'pacote_id', 'prox_pagamento'];
 
-    protected $hidden = [
-        'idConta', 'senha', 'pacote_id', 'nova_conta', 'created_at', 'updated_at'
-    ];
+    protected $hidden = ['idConta', 'senha', 'pacote_id', 'nova_conta', 'created_at', 'updated_at'];
 
     protected $table = 'contas';
 
@@ -20,7 +17,7 @@ class Conta extends Model
 
     public $timestamps = true;
 
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'prox_pagamento'];
 
     public function user()
     {

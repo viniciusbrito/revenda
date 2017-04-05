@@ -102,9 +102,9 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($idConta, $idPagamento)
     {
-        $pagamento = Pagamento::findOrFail($id);
+        $pagamento = Pagamento::findOrFail($idPagamento);
         return view('admin.payment.show')->with([
             'idUser'    => $pagamento->conta->user->id,
             'idConta'   => $pagamento->conta->idConta,
