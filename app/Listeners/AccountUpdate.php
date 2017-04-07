@@ -2,6 +2,7 @@
 
 namespace Revenda\Listeners;
 
+use Revenda\Events\CPanelNewAccount;
 use Revenda\Events\PaymentNotify;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,6 +34,8 @@ class AccountUpdate
             if ($conta->nova_conta) {
                 $conta->status_id = 2;
                 $conta->nova_conta = 0;
+                /*Fires event to create a new Account on CPanel*/
+                event(new CPanelNewAccount($conta));
             }
             $conta->prox_pagamento = $event->getPagamento()->data->addMonth(1);
             $conta->save();

@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
             'Revenda\Listeners\AccountUpdate',
             'Revenda\Listeners\PaymentSendNotify',
         ],
+        'Revenda\Events\CPanelNewAccount' => [
+            'Revenda\Listeners\CreateCPanelNewAccount',
+        ],
     ];
 
     /**

@@ -4,9 +4,14 @@ namespace Revenda\CPanel;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Conta extends Model
 {
+    use Notifiable;
+
+    private $slack_webhook_url = 'https://hooks.slack.com/services/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';
+
     protected $fillable = ['dominio', 'usuario', 'senha', 'status_id', 'pacote_id', 'prox_pagamento'];
 
     protected $hidden = ['idConta', 'senha', 'pacote_id', 'nova_conta', 'created_at', 'updated_at'];
@@ -18,16 +23,6 @@ class Conta extends Model
     public $timestamps = true;
 
     protected $dates = ['created_at', 'updated_at', 'prox_pagamento'];
-
-    public function user()
-    {
-        return $this->belongsTo('Revenda\Client\User', 'user_id');
-    }
-
-    public function pacote()
-    {
-        return $this->belongsTo('Revenda\CPanel\Pacote','pacote_id');
-    }
 
     public function status()
     {
@@ -43,8 +38,29 @@ class Conta extends Model
         }
     }
 
+    public function user()
+    {
+        return $this->belongsTo('Revenda\Client\User', 'user_id');
+    }
+
+    public function pacote()
+    {
+        return $this->belongsTo('Revenda\CPanel\Pacote','pacote_id');
+    }
+
     public function pagamentos()
     {
         return $this->hasMany('Revenda\Payment\Pagamento', 'conta_id', $this->primaryKey);
+    }
+
+    public function routeNotificationForSlack()
+    {
+        return $this->slack_webhook_url;
+    }
+
+    public function routeNotificationForMail()
+    {
+        return 'vinicius.fernandes.brito@gmail.com';
+        //return $this->user->email;
     }
 }
