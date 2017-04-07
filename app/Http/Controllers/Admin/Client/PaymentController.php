@@ -80,8 +80,6 @@ class PaymentController extends Controller
         $boletoStorePath = storage_path().'/boletos/'.$boletoCode.'.pdf';
         file_put_contents($boletoStorePath, fopen($boletoDownload, 'r'));
 
-        Mail::to($user)->send(new SendInvoice($user, $conta, $boletoStorePath));
-
         $pagamento = DB::transaction(function() use($conta, $resposta) {
             return $conta->pagamentos()
                 ->save(new Pagamento([
@@ -92,7 +90,8 @@ class PaymentController extends Controller
             ]));
         }, 5);
 
-        $pagamento->notify(new InvoiceCreated($pagamento));
+        //Mail::to($user)->send(new SendInvoice($user, $conta, $boletoStorePath));
+        $pagamento->notify(new InvoiceCreated($pagamento, $boletoStorePath));
 
         return redirect()->route('admin.payment.show', [$pagamento->conta->idConta, $pagamento->idPagamento]);
     }

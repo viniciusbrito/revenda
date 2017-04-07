@@ -9,21 +9,28 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Revenda\Payment\Pagamento;
+use Revenda\Mail\SendInvoice;
 
 class InvoiceCreated extends Notification
 {
     use Queueable;
 
     private $pagamento;
+    private $conta;
+    private $user;
+    private $file;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Pagamento $pagamento)
+    public function __construct(Pagamento $pagamento, $file)
     {
         $this->pagamento = $pagamento;
+        $this->conta = $pagamento->conta;
+        $this->user = $pagamento->conta->user;
+        $this->file = $file;
     }
 
     /**
@@ -34,7 +41,7 @@ class InvoiceCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['slack'];
+        return ['slack', 'mail'];
     }
 
     /**
@@ -45,10 +52,12 @@ class InvoiceCreated extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        /*return (new MailMessage)
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('Thank you for using our application!');*/
+
+        return (new SendInvoice($this->user, $this->conta, $this->file))->to($this->user->email);
     }
 
     /**
