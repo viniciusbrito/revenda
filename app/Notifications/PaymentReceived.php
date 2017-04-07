@@ -50,7 +50,9 @@ class PaymentReceived extends Notification
                     ->line('Recebemos o seu pagamento.')
                     ->line('Referênica: '.$this->pagamento->referencia)
                     ->line('Valor: R$'.$this->pagamento->conta->pacote->valor)
-                    ->line('Data: '.$this->pagamento->updated_at->format('d/m/Y'));
+                    ->line('Data referência: '.$this->pagamento->data->format('d/m/Y'))
+                    ->line('Data de criação: '.$this->pagamento->created_at->format('d/m/Y - H:i:s'))
+                    ->line('Data de atualização: '.$this->pagamento->updated_at->format('d/m/Y - H:i:s'));
     }
 
     /**
@@ -81,6 +83,7 @@ class PaymentReceived extends Notification
                         'Referência:' => $pgt->referencia,
                         'Valor:' => 'R$'.$pgt->conta->pacote->valor,
                         'Status:' => $pgt->status,
+                        'Data referência:' => $pgt->data->formatLocalized('%d %B %Y'),
                         'Data de criação:' => $pgt->created_at->formatLocalized('%d %B %Y'),
                         'Data de atualização:' => $pgt->updated_at->formatLocalized('%d %B %Y'),
                     ]);

@@ -29,7 +29,10 @@ class PaymentSendNotify
      */
     public function handle(PaymentNotify $event)
     {
-        $pagamento = $event->getPagamento();
-        $pagamento->notify(new PaymentReceived($pagamento));
+        /*Fires notify on slack for payment received*/
+        if ($event->getDados()['status'] == 3) {
+            $pagamento = $event->getPagamento();
+            $pagamento->notify(new PaymentReceived($pagamento));
+        }
     }
 }

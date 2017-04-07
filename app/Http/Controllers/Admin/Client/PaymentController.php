@@ -40,7 +40,7 @@ class PaymentController extends Controller
 
         $pagamentos = $conta->pagamentos()->whereIn('status', $status[$filter])->orderBy('created_at', 'desc')->paginate(2);
 
-        return view('admin.payment.index')->with(['pagamentos' => $pagamentos, 'filter' => $filter]);
+        return view('admin.payment.index')->with(['conta' => $conta, 'pagamentos' => $pagamentos, 'filter' => $filter]);
     }
 
     /**
@@ -88,6 +88,7 @@ class PaymentController extends Controller
                     'codigo'  => $resposta->getCode(),
                     'referencia'   => $resposta->getReference(),
                     'status' => $resposta->getStatus(),
+                    'data' => $conta->prox_pagamento,
             ]));
         }, 5);
 
@@ -138,12 +139,22 @@ class PaymentController extends Controller
         $boleto = new PagseguroBoleto();
         $resposta = $boleto->buscar($pagamento->codigo);
 
+        /**********************
+         * NEED BE REFACTORED *
+         **********************/
         if(!$resposta)
             return '';
 
-        $pagamento->status = $resposta->getStatus();
-        $pagamento->updated_at = Carbon::now();
-        $pagamento->save();
+        $transacao = [
+            'tipo' => $request['notificationType'],
+            'email' => $resposta->getSender()->getEmail(),
+            'codigo' => $resposta->getCode(),
+            'status' => $resposta->getStatus(),
+            'data' => Carbon::createFromFormat("Y-m-d\TH:i:s.uP", $resposta->getLasteventdate())->toDateTimeString()
+        ];
+        /*Fires event of payment notify*/
+        event(new PaymentNotify($pagamento, $transacao));
+
         //return redirect()->route('admin.account.show', [$pagamento->conta->user->id, $pagamento->conta->idConta]);
         return back();
     }
@@ -171,9 +182,12 @@ class PaymentController extends Controller
         ];
 
         $pagamento = Pagamento::where('codigo', $transacao['codigo'])->first();
-        /*Fires event of payment received*/
-        if($transacao['status'] == 3)
-            event(new PaymentNotify($pagamento, $transacao));
+
+        if(!$pagamento)
+            return response(404);
+
+        /*Fires event of payment notify*/
+        event(new PaymentNotify($pagamento, $transacao));
 
         return response()->json($transacao, 202);
     }

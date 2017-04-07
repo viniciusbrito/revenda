@@ -65,6 +65,9 @@
                                         <strong>Status:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->status()}}
                                     </li>
                                     <li class="list-group-item">
+                                        <strong>Data Referência:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->data->format('d/m/Y')}}
+                                    </li>
+                                    <li class="list-group-item">
                                         <strong>Criado em:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->created_at->format('d/m/Y - H:i:s')}}
                                     </li>
                                     <li class="list-group-item">

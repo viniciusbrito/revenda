@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                {!! Breadcrumbs::render('admin.payment.index', $pagamentos->first()->conta) !!}
+                {!! Breadcrumbs::render('admin.payment.index', $conta) !!}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
@@ -11,7 +11,7 @@
                                 <h3 class="panel-title">Lista de pagamentos</h3>
                             </div>
                             <div class="col-sm-4 col-xs-6 text-right">
-                                <form id="filtrar-form" name="filtrar-form" action="{{ route('admin.payment.index', $pagamentos->first()->conta) }}" method="GET">
+                                <form id="filtrar-form" name="filtrar-form" action="{{ route('admin.payment.index', $conta->idConta) }}" method="GET">
                                     <select onchange="document.getElementById('filtrar-form').submit();" class="form-control input-sm" name="filter" id="filter">
                                         <option {{(isset($filter) && $filter == 'all')? 'selected' : ''}} value="all">Todos os pagamentos</option>
                                         <option {{(isset($filter) && $filter == 'pgt')? 'selected' : ''}}  value="pgt">Pagamentos confirmados</option>
@@ -25,17 +25,10 @@
                         @foreach($pagamentos as $pagamento)
                             <table class="table table-bordered table-responsive">
                                 <tr>
-                                    <td><strong>Código:</strong> {{$pagamento->codigo}}</td>
-                                    <td class="text-right">
-                                        <form method="POST" action="{{route('admin.payment.update', [$pagamento->conta->idConta, $pagamento->idPagamento])}}">
-                                            {{csrf_field()}}
-                                            {{method_field('PUT')}}
-                                            <input class="btn btn-sm btn-info"  type="submit" id="atualizar" name="submit" value="Atualizar"/>
-                                        </form>
-                                    </td>
+                                    <td colspan="2"><strong>Código:</strong> {{$pagamento->codigo}}</td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td >
                                         <strong>Referência:</strong> {{$pagamento->referencia}}
                                     </td>
                                     <td>
@@ -43,8 +36,18 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><strong>Data Referência:</strong> {{$pagamento->data->format('d/m/Y')}}</td>
                                     <td><strong>Criado em:</strong> {{$pagamento->created_at->format('d/m/Y - H:i:s')}}</td>
+                                </tr>
+                                <tr>
                                     <td><strong>Última atualização:</strong> {{$pagamento->updated_at->format('d/m/Y - H:i:s')}}</td>
+                                    <td class="text-right">
+                                        <form method="POST" action="{{route('admin.payment.update', [$pagamento->conta->idConta, $pagamento->idPagamento])}}">
+                                            {{csrf_field()}}
+                                            {{method_field('PUT')}}
+                                            <input class="btn btn-sm btn-info"  type="submit" id="atualizar" name="submit" value="Atualizar"/>
+                                        </form>
+                                    </td>
                                 </tr>
                             </table>
                         @endforeach

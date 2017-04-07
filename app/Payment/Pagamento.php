@@ -15,9 +15,9 @@ class Pagamento extends Model
 
     protected $primaryKey = 'idPagamento';
 
-    protected $fillable = ['codigo', 'referencia', 'status', 'conta_id'];
+    protected $fillable = ['codigo', 'referencia', 'status', 'data', 'conta_id'];
 
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'data'];
 
     protected $hidden = ['idPagamento', 'conta_id', 'created_at', 'updated_at'];
 
@@ -53,7 +53,7 @@ class Pagamento extends Model
 
     public function routeNotificationForMail()
     {
-        //return $this->conta->user->email;
         return 'vinicius.fernandes.brito@gmail.com';
+        //return $this->conta->user->email;
     }
 }
