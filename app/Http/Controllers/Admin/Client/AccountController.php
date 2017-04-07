@@ -76,7 +76,7 @@ class AccountController extends Controller
         $conta->senha = str_random(8);
         $conta->status_id = 1;
         $conta->pacote_id = $pkt->idPacote;
-        $conta->prox_pagamento = Carbon::now()->addMonth(1);
+        $conta->prox_pagamento = Carbon::now();
         $conta = $user->contas()->save($conta);
 
         return redirect()->route('admin.payment.create', $conta->idConta);
