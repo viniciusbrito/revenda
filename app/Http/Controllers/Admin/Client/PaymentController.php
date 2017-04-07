@@ -51,7 +51,9 @@ class PaymentController extends Controller
     public function create($id)
     {
         $conta = Conta::findOrFail($id);
-        return view('admin.payment.create')->with(['conta' => $conta]);
+        if(!count($conta->pagamentos) || $conta->prox_pagamento->subDay(5)->isToday() || $conta->prox_pagamento->subDay(5)->isPast())
+            return view('admin.payment.create')->with(['conta' => $conta]);
+        return redirect()->route('admin.account.show', [$conta->user->id, $conta->idConta]);
     }
 
     /**
