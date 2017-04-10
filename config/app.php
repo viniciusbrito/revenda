@@ -179,6 +179,11 @@ return [
 
         IsmUk\Breadcrumbs\ServiceProvider::class,
 
+        /*
+         * WHM Service Provider
+         */
+        \Revenda\Providers\WHMServiceProvider::class,
+
     ],
 
     /*

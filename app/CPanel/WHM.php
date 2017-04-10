@@ -43,14 +43,14 @@ class WHM
         return (array) $this->xmlapi->applist()->app;
     }
 
-    public function criaConta(Conta $user)
+    public function criaConta(Conta $conta)
     {
         $novaConta = [
-            'username' => $user->usuario,
-            'password' => $user->senha,
-            'domain' => $user->dominio,
-            'contactemail' => $user->email,
-            'plan' => $user->pacote->nome,
+            'username' => $conta->usuario,
+            'password' => $conta->senha,
+            'domain' => $conta->dominio,
+            'contactemail' => $conta->user->email,
+            'plan' => $conta->pacote->nome,
         ];
         $rep = $this->xmlapi->createacct($novaConta);
         return ['codigo' => (string)$rep->result->status, 'mensagem' => (string)$rep->result->statusmsg];
