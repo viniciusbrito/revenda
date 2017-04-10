@@ -72,7 +72,7 @@ class PaymentReceived extends Notification
     {
         $pgt = $this->pagamento;
         $msg = 'Uma notificação de pagamento foi recebida: '.env('APP_ENV');
-        return (new SlackMessage)
+        $slack = (new SlackMessage)
             ->success()
             ->content($msg)
             ->attachment(function($attachment) use ($pgt) {
@@ -88,6 +88,9 @@ class PaymentReceived extends Notification
                         'Data de atualização:' => $pgt->updated_at->formatLocalized('%d %B %Y'),
                     ]);
             });
+        if(!env('production'))
+            $slack->to('#dev');
+        return $slack;
 
     }
 }

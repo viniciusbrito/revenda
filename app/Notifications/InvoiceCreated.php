@@ -77,7 +77,7 @@ class InvoiceCreated extends Notification
     {
         $pgt = $this->pagamento;
         $msg = 'Um novo boleto foi gerado! Ambiente: '.env('APP_ENV');
-        return (new SlackMessage)
+        $slack = (new SlackMessage)
             ->success()
             ->content($msg)
             ->attachment(function($attachment) use ($pgt) {
@@ -91,6 +91,10 @@ class InvoiceCreated extends Notification
                         'Data:' => $pgt->created_at->formatLocalized('%d %B %Y'),
                     ]);
         });
+
+        if(!env('production'))
+            $slack->to('#dev');
+        return $slack;
 
     }
 }

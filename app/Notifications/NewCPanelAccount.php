@@ -69,7 +69,7 @@ class NewCPanelAccount extends Notification
     {
         $conta = $this->conta;
         $msg = 'Um nova conta foi criada no CPanel! Ambiente: '.env('APP_ENV');
-        return (new SlackMessage)
+        $slack = (new SlackMessage)
             ->success()
             ->content($msg)
             ->attachment(function($attachment) use ($conta) {
@@ -80,5 +80,8 @@ class NewCPanelAccount extends Notification
                         'Criado em:' => $conta->created_at->formatLocalized('%d %B %Y')
                     ]);
             });
+        if(!env('production'))
+            $slack->to('#dev');
+        return $slack;
     }
 }
