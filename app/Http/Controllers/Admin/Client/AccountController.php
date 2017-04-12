@@ -56,16 +56,13 @@ class AccountController extends Controller
         $user = User::findOrFail($id);
 
         $this->validate($request, [
-            'dominio' => 'required',
+            'dominio' => 'required|unique:contas,dominio',
             'idPacote'  =>  'required|exists:pacotes,idPacote'
         ]);
 
         $pkt = Pacote::findOrFail($request->idPacote);
 
-        $username = explode('.', $request->dominio)[0];
-        $conta = Conta::where('usuario', $username)->first();
-        if($conta)
-            return back()->withInput()->withErrors(['dominio' => 'Problemas com usuario']);
+        $username = $this->makeUsername($user);
 
         /*
          * NEED A REPOSITORY PATTERN
@@ -80,6 +77,32 @@ class AccountController extends Controller
         $conta = $user->contas()->save($conta);
 
         return redirect()->route('admin.payment.create', $conta->idConta);
+    }
+
+    /**
+     * @param User $user
+     * @return mixed|string
+     */
+    private function makeUsername(User $user)
+    {
+        $i = 1;
+        do {
+            $username = strtolower(explode(' ', $user->nome)[0]);
+            $aux = count($user->contas) + $i;
+            $username = $username.'h'.$aux;
+            $username = preg_replace('/[^A-Za-z0-9\-]/', '', $username);
+            $i++;
+        } while(!$this->usernameIsValid($user));
+        return $username;
+    }
+
+    /**
+     * @param string $n
+     * @return bool
+     */
+    private function usernameIsValid($n)
+    {
+        return Conta::where('usuario', $n)->first()? false : true;
     }
 
     /**
