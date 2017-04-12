@@ -24,4 +24,20 @@ class User extends Authenticatable
     {
         return $this->hasOne('Revenda\Client\Endereco', 'user_id');
     }
+
+    /*
+     * Mutator to get only telefone number
+     */
+    public function getTelefoneAttribute()
+    {
+        return explode(' ', $this->attributes['telefone'])[1];
+    }
+
+    /*
+     * Mutator to get telefone codigo area
+     */
+    public function getCodigoAreaAttribute()
+    {
+        return explode(' ', $this->attributes['telefone'])[0];
+    }
 }

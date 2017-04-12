@@ -42,13 +42,28 @@
     <div class="col-sm-6">
         <div class="form-group{{ $errors->has('telefone') ? ' has-error' : '' }}">
             <label for="telefone">Telefone:</label>
-            <input id="telefone" name="telefone" value="{{isset($user->telefone)? $user->telefone : old('telefone')}}" class="form-control" type="text"/>
-
-            @if ($errors->has('telefone'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('telefone') }}</strong>
-                </span>
-            @endif
+            <div class="row">
+                <div class="col-sm-3">
+                    <input id="codigo_area" name="codigo_area" maxlength="2" value="{{isset($user->codigo_area)? $user->codigo_area : old('codigo_area')}}" class="form-control" type="text"/>
+                </div>
+                <div class="col-sm-9">
+                    <input id="telefone" name="telefone" value="{{isset($user->telefone)? $user->telefone : old('telefone')}}" class="form-control" type="text"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    @if ($errors->has('codigo_area'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('codigo_area') }}</strong>
+                        </span>
+                    @endif
+                    @if ($errors->has('telefone'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('telefone') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 </div>

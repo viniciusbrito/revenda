@@ -48,6 +48,7 @@ class UserController extends Controller
             'nome' => 'required|min:5|max:255',
             'email' => 'required|email|max:255|unique:users',
             'cpf' => 'required|max:16|unique:users',
+            'codigo_area' => 'required|min:2',
             'telefone' => 'required|min:8',
             'logradouro' => 'required|min:2',
             'numero' => 'required',
@@ -59,7 +60,9 @@ class UserController extends Controller
         ]);
 
         $dados = $request->all();
-        $dados['password'] = Hash::make(str_random(8));
+        $dados['password'] = $senha = Hash::make(str_random(8));
+
+        $dados['telefone'] = $dados['codigo_area'].' '.$dados['telefone'];
 
         $user = DB::transaction(function() use($dados) {
             $user = User::create($dados);
@@ -120,6 +123,7 @@ class UserController extends Controller
             'nome' => 'required|min:5|max:255',
             'email' => 'required|email|max:255|unique:users,email,'.$id,
             'cpf' => 'required|max:16|unique:users,cpf,'.$id,
+            'codigo_area' => 'required|min:2',
             'telefone' => 'required|min:8',
             'logradouro' => 'required|min:2',
             'numero' => 'required',
@@ -130,16 +134,19 @@ class UserController extends Controller
             'complemento' => 'string|nullable',
         ]);
 
+        $dados = $request->all();
+        $dados['telefone'] = $dados['codigo_area'].' '.$dados['telefone'];
+
         $user = User::findOrFail($id);
-        $user = DB::transaction(function() use($request, $user) {
-            $user->update($request->all());
+        $user = DB::transaction(function() use($dados, $user) {
+            $user->update($dados);
             if($user->endereco) {
                 $endereco = $user->endereco;
-                $endereco->fill($request->all());
+                $endereco->fill($dados);
                 $endereco->update();
             }
             else {
-                $user->endereco()->save(new Endereco($request->all()));
+                $user->endereco()->save(new Endereco($dados));
             }
             return $user;
         }, 3);

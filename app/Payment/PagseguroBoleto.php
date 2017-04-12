@@ -33,9 +33,7 @@ class PagseguroBoleto extends Pagseguro
         $this->boleto->setSender()->setEmail($user->email);
         $this->boleto->setSender()->setDocument()->withParameters('CPF', $user->cpf);
 
-        $area = explode(' ', $user->telefone)[0];
-        $num = explode(' ', $user->telefone)[1];
-        $this->boleto->setSender()->setPhone()->withParameters($area, $num);
+        $this->boleto->setSender()->setPhone()->withParameters($user->codigo_area, $user->telefone);
 
         $this->boleto->setShipping()->setAddress()->withParameters(
             $user->endereco->logradouro,

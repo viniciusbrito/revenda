@@ -28,7 +28,7 @@
                                     <li class="list-group-item"><strong>Nome:</strong> {{$user->nome}}</li>
                                     <li class="list-group-item"><strong>Email:</strong> {{$user->email}}</li>
                                     <li class="list-group-item"><strong>CPF:</strong> {{$user->cpf}}</li>
-                                    <li class="list-group-item"><strong>Telefone:</strong> {{$user->telefone}}</li>
+                                    <li class="list-group-item"><strong>Telefone:</strong> {{$user->codigo_area}} {{$user->telefone}}</li>
                                 </ul>
                             </div>
                         </div>
