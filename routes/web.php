@@ -65,7 +65,7 @@ Route::group(['prefix' => 'admin'], function(){
     });
 
     /*Logout route*/
-    Route::get('/logout', ['as' => 'admin.logout','uses' => 'Auth\AdminLoginController@logout']);
+    Route::post('/logout', ['as' => 'admin.logout','uses' => 'Auth\AdminLoginController@logout']);
 
     /*Routes to send token and create new password*/
     Route::group(['prefix' => 'password', 'namespace' => 'Auth'], function(){
