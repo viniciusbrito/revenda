@@ -20,8 +20,8 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-sm-6"><strong>Pacote:</strong> {{$conta->pacote->nome}}</div>
-                                    <div class="col-sm-6 text-right"><a class="btn btn-xs btn-default" href="#">Alterar pacote</a></div>
+                                    <div class="col-sm-6 col-xs-6"><strong>Pacote:</strong> {{$conta->pacote->nome}}</div>
+                                    <div class="col-sm-6 col-xs-6 text-right"><a class="btn btn-xs btn-default" href="#">Alterar pacote</a></div>
                                 </div>
                             </li>
                             <li class="list-group-item">

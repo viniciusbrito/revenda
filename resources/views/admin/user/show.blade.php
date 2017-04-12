@@ -12,10 +12,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-6 col-lg-6">
                                 <h3 class="panel-title">Informações pessoais</h3>
                             </div>
-                            <div class="col-sm-6 text-right">
+                            <div class="col-sm-6 col-xs-6 col-lg-6 text-right">
                                 <a class="btn btn-primary btn-xs" href="{{route('admin.user.edit', $user->id)}}">Editar</a>
                             </div>
                         </div>
@@ -23,7 +23,7 @@
 
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-xs-12 col-sm-12 col-lg-12">
                                 <ul class="list-group">
                                     <li class="list-group-item"><strong>Nome:</strong> {{$user->nome}}</li>
                                     <li class="list-group-item"><strong>Email:</strong> {{$user->email}}</li>
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-xs-12 col-sm-12 col-lg-12">
                                 @if(!$user->endereco)
                                     <a href="{{route('admin.user.edit', $user->id)}}"><p class="alert alert-warning text-center">Esse usuário precisa ser atualizado.<br/>Clique aqui para atualizar</p></a>
                                 @else
@@ -56,10 +56,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-xs-6 col-sm-6 col-lg-6">
                                 <h3 class="panel-title">Pacotes Contratados</h3>
                             </div>
-                            <div class="col-sm-6 text-right">
+                            <div class="col-xs-6 col-sm-6 col-lg-6 text-right">
                                 <a class="btn btn-primary btn-xs" href="{{route('admin.account.create', $user->id)}}">Add Pacote</a>
                             </div>
                         </div>

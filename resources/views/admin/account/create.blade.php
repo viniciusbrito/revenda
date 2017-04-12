@@ -47,16 +47,18 @@
 
                         @foreach($pacotes as $pacote)
                             <div class="row">
-                                <div class="col-sm-3">
-                                    {{$pacote->nome}}
+                                <div class="col-sm-9 col-xs-8">
+                                    <div class="col-sm-4 col-xs-12">
+                                        {{$pacote->nome}}
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        Descrição do pacote!
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        R$ {{$pacote->valor}} / {{$pacote->periodo}}
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    Descrição do pacote!
-                                </div>
-                                <div class="col-sm-3">
-                                    R$ {{$pacote->valor}} / {{$pacote->periodo}}
-                                </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 col-xs-3 text-center">
                                     <button type="submit"
                                             class="btn btn-primary btn-sm"
                                             onclick="comprar({{$pacote->idPacote}})">
