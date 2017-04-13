@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                {!! Breadcrumbs::render('client.payment.create', $conta) !!}
                 <div class="panel panel-default">
                     <div class="panel-heading">Pagamento</div>
 
@@ -20,10 +21,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <form id="payment-store-form" action="{{route('client.payment.store')}}" method="POST" onsubmit="enviarDados()">
+                                    <form id="payment-store-form" action="{{route('client.payment.store', $conta->idConta)}}" method="POST" onsubmit="enviarDados()">
                                         {{csrf_field()}}
-                                        {{--idConta Redundancia (só p/ garantir) caso perca o cache--}}
-                                        <input type="hidden" id="idConta" name="idConta" value="{{$conta->idConta}}"/>
                                         <button id="senderHash" class="btn btn-primary btn-lg">Gerar Boleto</button>
                                     </form>
                                 </div>
@@ -39,7 +38,11 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+    @if(env('PAGSEGURO_ENV') == 'production')
+        <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+    @else
+        <script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+    @endif
 
     <script type="text/javascript">
 

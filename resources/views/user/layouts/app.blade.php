@@ -61,6 +61,9 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
+                                    <a href="{{ route('client.edit', Auth::user()->id) }}">Meus dados</a>
+                                </li>
+                                <li>
                                     @if(Auth::check())
                                         <a href="{{ route('logout') }}"
                                            onclick="event.preventDefault();

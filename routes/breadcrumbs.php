@@ -1,5 +1,70 @@
 <?php
+/*****************************************************USER'S DASHBOARD***********************************************/
+/*
+* Breadcrumb to User Home
+*/
+Breadcrumbs::register('client.index', function($breadcrumbs)
+{
+    $breadcrumbs->push('Pagina Inicial', route('client.index'));
+});
 
+/*
+* Breadcrumb to Admin's Page User edit
+*/
+Breadcrumbs::register('client.edit', function($breadcrumbs)
+{
+    $breadcrumbs->parent('client.index');
+    $breadcrumbs->push('Atualizar dados', route('client.edit', Auth::user()->id));
+});
+
+/*
+* Breadcrumb to Admin's Form Account Create
+*/
+Breadcrumbs::register('client.account.create', function($breadcrumbs)
+{
+    $breadcrumbs->parent('client.index');
+    $breadcrumbs->push('Adicionar conta', route('client.account.create'));
+});
+
+/*
+* Breadcrumb to Admin's Form Account Info
+*/
+Breadcrumbs::register('client.account.show', function($breadcrumbs, $conta)
+{
+    $breadcrumbs->parent('client.index', $conta->user);
+    $breadcrumbs->push('Informações da conta', route('client.account.show', $conta->idConta));
+});
+
+/*
+* Breadcrumb to User's Page Payment Create
+*/
+Breadcrumbs::register('client.payment.create', function($breadcrumbs, $conta)
+{
+    $breadcrumbs->parent('client.account.show', $conta);
+    $breadcrumbs->push('Pagamento', route('client.payment.create', $conta->idConta));
+});
+
+/*
+ * Breadcrumb to User's Page Payment List
+ */
+Breadcrumbs::register('client.payment.index', function($breadcrumbs, $conta)
+{
+    $breadcrumbs->parent('client.account.show', $conta);
+    $breadcrumbs->push('Pagamentos', route('client.payment.index', $conta->idConta));
+});
+
+/*
+ * Breadcrumb to User's Page Payment info
+ */
+Breadcrumbs::register('client.payment.show', function($breadcrumbs, $pagamento)
+{
+    $breadcrumbs->parent('client.payment.index', $pagamento->conta);
+    $breadcrumbs->push($pagamento->codigo, route('client.payment.show', [$pagamento->conta->idConta, $pagamento->idPagamento]));
+});
+
+
+
+/*****************************************************ADMIN'S DASHBOARD************************************************/
 /*
 * Breadcrumb to Admin's Dashboard
 */

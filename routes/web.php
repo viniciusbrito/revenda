@@ -17,33 +17,19 @@ Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 
 /*Client's Routes*/
+
+/*Routes to client's panel*/
+Route::resource('/client', 'Client\ClientController', ['only' => ['index', 'edit', 'update'], 'names' => ['index' => 'client.index', 'edit' => 'client.edit']]);
+
 Route::group(['prefix' => 'client'], function() {
 
-    /*Routes to client's panel*/
-    Route::resource('/',
-        'Client\ClientController',
-        [
-            'only' => ['index'],
-            'names' => ['index' => 'client.index']
-        ]);
-
     /*Routes to client's addres*/
-    Route::resource('/address',
-        'Client\EnderecoController',
-        [
-            'except' => ['index', 'show', 'destroy'],
-            'as' => 'client'
-        ]);
+    Route::resource('/address', 'Client\EnderecoController', ['only' => ['create', 'store', 'update'], 'as' => 'client']);
 
     /*Routes to client's accouts*/
-    Route::resource('/account',
-        'CPanel\ContaController',
-        [
-            'only' => ['create', 'store', 'show'],
-            'as' => 'client'
-        ]);
+    Route::resource('/account', 'Client\CPanel\ContaController', ['only' => ['create', 'store', 'show'], 'as' => 'client']);
 
-    Route::resource('/payment', 'Payment\PaymentController', ['only' => ['create', 'store'], 'as' => 'client']);
+    Route::resource('/account/{account}/payment', 'Client\Payment\PaymentController', ['only' => ['index', 'create', 'store', 'show', 'update'], 'as' => 'client']);
 
 });
 
@@ -53,15 +39,9 @@ Route::group(['prefix' => 'admin'], function(){
     /*Routes to login*/
     Route::group(['prefix' => 'login', 'namespace' => 'Auth'], function(){
 
-        Route::get('/', [
-            'as' => 'admin.login',
-            'uses' => 'AdminLoginController@showLogin'
-        ]);
+        Route::get('/', ['as' => 'admin.login', 'uses' => 'AdminLoginController@showLogin']);
 
-        Route::post('/', [
-            'as' => 'admin.login.submit',
-            'uses' => 'AdminLoginController@login'
-        ]);
+        Route::post('/', ['as' => 'admin.login.submit', 'uses' => 'AdminLoginController@login']);
     });
 
     /*Logout route*/
@@ -71,26 +51,14 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'password', 'namespace' => 'Auth'], function(){
 
         /*Forgot password*/
-        Route::post('/email', [
-            'as' => 'admin.password.email',
-            'uses' => 'AdminForgotPasswordController@sendResetLinkEmail'
-        ]);
+        Route::post('/email', ['as' => 'admin.password.email', 'uses' => 'AdminForgotPasswordController@sendResetLinkEmail']);
 
-        Route::get('/reset', [
-            'as' => 'admin.password.request',
-            'uses' => 'AdminForgotPasswordController@showLinkRequestForm'
-        ]);
+        Route::get('/reset', ['as' => 'admin.password.request', 'uses' => 'AdminForgotPasswordController@showLinkRequestForm']);
 
         /*Reset password*/
-        Route::post('/reset', [
-            //'as' => 'admin.passord.request.submit',
-            'uses' => 'AdminResetPasswordController@reset'
-        ]);
+        Route::post('/reset', ['uses' => 'AdminResetPasswordController@reset']);
 
-        Route::get('/reset/{token}', [
-            'as' => 'admin.passord.reset',
-            'uses' => 'AdminResetPasswordController@showResetForm'
-        ]);
+        Route::get('/reset/{token}', ['as' => 'admin.passord.reset', 'uses' => 'AdminResetPasswordController@showResetForm']);
     });
 
     /*Admin's Dashboard*/

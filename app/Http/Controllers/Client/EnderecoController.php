@@ -38,7 +38,7 @@ class EnderecoController extends Controller
         if(Cache::has(Auth::user()->id))
             $conta = Cache::get(Auth::user()->id);
 
-        return view('user.endereco')->with(['conta' => $conta]);
+        return view('user.address.create')->with(['conta' => $conta]);
     }
 
     /**
@@ -64,7 +64,7 @@ class EnderecoController extends Controller
         $user->endereco()->save($address);
 
         if(isset($request->idConta))
-            return redirect()->route('client.payment.create');
+            return redirect()->route('client.payment.create', $request->idConta);
 
         return redirect()->route('client.enderco.create')->withInput()->with(['flash_message' => 'Endereco salvo com sucesso']);
     }

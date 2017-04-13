@@ -1,13 +1,15 @@
 <?php
 
-namespace Revenda\Http\Controllers\CPanel;
+namespace Revenda\Http\Controllers\Client\CPanel;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
+use Revenda\CPanel\Conta;
 use Revenda\CPanel\Pacote;
+use Revenda\Client\User;
 
 class ContaController extends Controller
 {
@@ -33,7 +35,7 @@ class ContaController extends Controller
      */
     public function create()
     {
-        return view('user.conta')->with(['pacotes' => Pacote::all()]);
+        return view('user.account.create')->with(['pacotes' => Pacote::all()]);
     }
 
     /**
@@ -51,10 +53,9 @@ class ContaController extends Controller
 
         $pkt = Pacote::findOrFail($request->idPacote);
 
-        $username = explode('.', $request->dominio)[0];
-        $conta = Conta::where('usuario', $username)->first();
-        if($conta)
-            return back()->withInput()->withErrors(['dominio' => 'Problemas com usuario']);
+        $user = Auth::user();
+
+        $username = $this->makeUsername($user);
 
         $conta = new Conta();
         $conta->dominio = $request->dominio;
@@ -62,16 +63,39 @@ class ContaController extends Controller
         $conta->senha = str_random(8);
         $conta->status_id = 1;
         $conta->pacote_id = $pkt->idPacote;
-        $user = Auth::user();
+        $conta->prox_pagamento = Carbon::now();
         $conta = $user->contas()->save($conta);
 
-        Cache::forget($user->id);
-        Cache::put($user->id, $conta, 60);
-
         if($user->endereco) {
-            return redirect()->route('client.payment.create');
+            return redirect()->route('client.payment.create', $conta->idConta);
         }
         return redirect()->route('client.address.create');
+    }
+
+    /**
+     * @param User $user
+     * @return mixed|string
+     */
+    private function makeUsername(User $user)
+    {
+        $i = 1;
+        do {
+            $username = strtolower(explode(' ', $user->nome)[0]);
+            $aux = count($user->contas) + $i;
+            $username = $username.'h'.$aux;
+            $username = preg_replace('/[^A-Za-z0-9\-]/', '', $username);
+            $i++;
+        } while(!$this->usernameIsValid($user));
+        return $username;
+    }
+
+    /**
+     * @param string $n
+     * @return bool
+     */
+    private function usernameIsValid($n)
+    {
+        return Conta::where('usuario', $n)->first()? false : true;
     }
 
     /**
@@ -88,12 +112,13 @@ class ContaController extends Controller
         else {
             $conta = Conta::findOrFail($id);
 
-            if($conta->status_id == 1) {
+            /*if($conta->status_id == 1) {
                 Cache::forget(Auth::user()->id);
                 Cache::put(Auth::user()->id, $conta, 60);
-                return redirect()->route('client.payment.create');
+                return redirect()->route('client.payment.create', $conta->idConta);
             }
-            return response()->json($conta);
+            return response()->json($conta);*/
+            return view('user.account.show', ['conta' => $conta]);
         }
     }
 
