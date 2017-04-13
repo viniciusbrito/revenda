@@ -9,6 +9,7 @@ use Revenda\Client\User;
 use Revenda\CPanel\Conta;
 use Revenda\CPanel\Pacote;
 use Revenda\Http\Controllers\Controller;
+use Revenda\CPanel\WHM;
 
 class AccountController extends Controller
 {
@@ -62,7 +63,8 @@ class AccountController extends Controller
 
         $pkt = Pacote::findOrFail($request->idPacote);
 
-        $username = $this->makeUsername($user);
+        $whm = app(WHM::class);
+        $username = $whm->criaNomeUsuario($user);
 
         /*
          * NEED A REPOSITORY PATTERN
@@ -79,31 +81,6 @@ class AccountController extends Controller
         return redirect()->route('admin.payment.create', $conta->idConta);
     }
 
-    /**
-     * @param User $user
-     * @return mixed|string
-     */
-    private function makeUsername(User $user)
-    {
-        $i = 1;
-        do {
-            $username = strtolower(explode(' ', $user->nome)[0]);
-            $aux = count($user->contas) + $i;
-            $username = $username.'h'.$aux;
-            $username = preg_replace('/[^A-Za-z0-9\-]/', '', $username);
-            $i++;
-        } while(!$this->usernameIsValid($user));
-        return $username;
-    }
-
-    /**
-     * @param string $n
-     * @return bool
-     */
-    private function usernameIsValid($n)
-    {
-        return Conta::where('usuario', $n)->first()? false : true;
-    }
 
     /**
      * Display the specified resource.

@@ -2469,4 +2469,12 @@ class xmlapi
         return $this->api2_query($username, 'StatsBar', 'stat', $values);
     }
 
+    public function verifyusername($username)
+    {
+        return $this->xmlapi_query('verify_new_username', [
+            'api.version' => 1,
+            'user' => $username
+        ]);
+    }
+
 }
