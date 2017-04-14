@@ -24,6 +24,9 @@ class Conta extends Model
 
     protected $dates = ['created_at', 'updated_at', 'prox_pagamento'];
 
+    /**
+     * @return string
+     */
     public function status()
     {
         switch ($this->status_id) {
@@ -38,29 +41,59 @@ class Conta extends Model
         }
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo('Revenda\Client\User', 'user_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function pacote()
     {
         return $this->belongsTo('Revenda\CPanel\Pacote','pacote_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function pagamentos()
     {
         return $this->hasMany('Revenda\Payment\Pagamento', 'conta_id', $this->primaryKey);
     }
 
+    /**
+     * @return string
+     */
     public function routeNotificationForSlack()
     {
         return $this->slack_webhook_url;
     }
 
+    /**
+     * @return string
+     */
     public function routeNotificationForMail()
     {
         return 'vinicius.fernandes.brito@gmail.com';
         //return $this->user->email;
+    }
+
+
+    /**
+     * True if there was generated an invoice to next payday (prox_pagamento)
+     * @return bool
+     */
+    public function temPagamento()
+    {
+        if(count($this->pagamentos) > 0) {
+            $pgt = $this->pagamentos()->orderBy('data', 'desc')->first();
+            if($pgt->data->format('Y-m-d') == $this->prox_pagamento->format('Y-m-d'))
+                return true;
+        }
+        return false;
     }
 }
