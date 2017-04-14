@@ -75,6 +75,7 @@
                                                 <div class="col-sm-7">
                                                     <strong>Dominio:</strong> {{$conta->dominio}}<br/>
                                                     <strong>Pacote:</strong> {{$conta->pacote->nome}}<br/>
+                                                    <small>Vencimento todo dia {{$conta->prox_pagamento->format('d')}}</small>
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <a class="btn btn-default btn-block" href="{{route('admin.account.show',[$user->id, $conta->idConta])}}">Gerenciar</a>

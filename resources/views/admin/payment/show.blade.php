@@ -19,7 +19,7 @@
                         <ul class="list-group">
                             <li class="list-group-item"><strong>Código:</strong> {{$pagamento->codigo}}</li>
                             <li class="list-group-item"><strong>Referência:</strong> {{$pagamento->referencia}}</li>
-                            <li class="list-group-item"><strong>Status:</strong> {{$pagamento->status()}}</li>
+                            <li class="list-group-item"><strong>Status:</strong> {{$pagamento->status}}</li>
                             <li class="list-group-item"><strong>Conta:</strong> <a target="_blank" href="http://{{$pagamento->conta->dominio}}">{{$pagamento->conta->dominio}}</a></li>
                             <li class="list-group-item"><strong>Usuário:</strong> {{$pagamento->conta->user->nome}}</li>
                         </ul>

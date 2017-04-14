@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Revenda\Client\User;
 use Revenda\CPanel\Conta;
 use Revenda\Http\Controllers\Controller;
+use Revenda\Payment\Pagamento;
 
 class AdminController extends Controller
 {
@@ -19,6 +20,8 @@ class AdminController extends Controller
 
     public function index()
     {
+        $pagamentos = Pagamento::where('status', '=', 1)->get();
+
         $contas = Conta::whereBetween('prox_pagamento', [
             Carbon::now()->format('Y-m-d'),
             Carbon::now()->addDays(7)->format('Y-m-d')
@@ -28,7 +31,8 @@ class AdminController extends Controller
 
         return view('admin.dashboard',[
             'users' => User::all(),
-            'contas' => $contas
+            'contas' => $contas,
+            'pagamentos' => $pagamentos
         ]);
     }
 }

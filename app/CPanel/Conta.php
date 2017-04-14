@@ -27,9 +27,9 @@ class Conta extends Model
     /**
      * @return string
      */
-    public function status()
+    public function getStatusIdAttribute()
     {
-        switch ($this->status_id) {
+        switch ($this->attributes['status_id']) {
             case 1:
                 return 'Aguardando Pagamento';
             case 2:

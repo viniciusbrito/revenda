@@ -21,14 +21,20 @@ class Pagamento extends Model
 
     protected $hidden = ['idPagamento', 'conta_id', 'created_at', 'updated_at'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function conta()
     {
         return $this->belongsTo('Revenda\CPanel\Conta', 'conta_id');
     }
 
-    public function status()
+    /**
+     * @return string
+     */
+    public function getStatusAttribute()
     {
-        switch ($this->status) {
+        switch ($this->attributes['status']) {
             case 1:
                 return 'Aguardando pagamento';
             case 2:
@@ -46,11 +52,17 @@ class Pagamento extends Model
         }
     }
 
+    /**
+     * @return string
+     */
     public function routeNotificationForSlack()
     {
         return $this->slack_webhook_url;
     }
 
+    /**
+     * @return string
+     */
     public function routeNotificationForMail()
     {
         return 'vinicius.fernandes.brito@gmail.com';
