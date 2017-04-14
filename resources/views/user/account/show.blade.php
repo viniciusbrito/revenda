@@ -31,7 +31,7 @@
                                 <strong>Senha:</strong> {{$conta->senha}}
                             </li>
                             <li class="list-group-item">
-                                <strong>Status:</strong> {{$conta->status()}}
+                                <strong>Status:</strong> {{$conta->status_id}}
                             </li>
                             <li class="list-group-item">
                                 <strong>Criado em:</strong> {{$conta->created_at->format('d/m/Y - h:i:s')}}
@@ -62,7 +62,7 @@
                                             <strong>Referência:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->referencia}}
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Status:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->status()}}
+                                            <strong>Status:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->status}}
                                         </li>
                                         <li class="list-group-item">
                                             <strong>Data Referência:</strong> {{$conta->pagamentos()->orderBy('created_at', 'desc')->first()->data->format('d/m/Y')}}

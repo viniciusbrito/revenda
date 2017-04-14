@@ -32,7 +32,7 @@
                                         <strong>Referência:</strong> {{$pagamento->referencia}}
                                     </td>
                                     <td>
-                                        <strong>Status:</strong> {{$pagamento->status()}}
+                                        <strong>Status:</strong> {{$pagamento->status}}
                                     </td>
                                 </tr>
                                 <tr>
