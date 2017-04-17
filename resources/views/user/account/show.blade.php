@@ -31,7 +31,7 @@
                                 <strong>Senha:</strong> {{$conta->senha}}
                             </li>
                             <li class="list-group-item">
-                                <strong>Status:</strong> {{$conta->status_id}}
+                                <strong>Status:</strong> {{$conta->status}}
                             </li>
                             <li class="list-group-item">
                                 <strong>Criado em:</strong> {{$conta->created_at->format('d/m/Y - h:i:s')}}

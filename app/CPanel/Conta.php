@@ -27,7 +27,7 @@ class Conta extends Model
     /**
      * @return string
      */
-    public function getStatusIdAttribute()
+    public function getStatusAttribute()
     {
         switch ($this->attributes['status_id']) {
             case 1:
@@ -35,9 +35,11 @@ class Conta extends Model
             case 2:
                 return 'Ativo';
             case 3:
-                return 'Inativo';
+                return 'Suspenso';
             case 4:
                 return 'Pagamento Atrasado';
+            case 5:
+                return 'Inativo';
         }
     }
 

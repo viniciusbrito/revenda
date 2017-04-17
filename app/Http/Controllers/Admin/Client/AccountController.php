@@ -116,9 +116,12 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $idUser, $idConta)
     {
-        //
+        $conta = Conta::findOrFail($idConta);
+        $conta->fill($request->all());
+        $conta->save();
+        return redirect()->route('admin.account.show', [$conta->user->id, $conta->idConta]);
     }
 
     /**
