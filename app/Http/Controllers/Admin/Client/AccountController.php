@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Revenda\Client\User;
 use Revenda\CPanel\Conta;
 use Revenda\CPanel\Pacote;
+use Revenda\Events\AccountStatusUpdate;
 use Revenda\Http\Controllers\Controller;
 use Revenda\CPanel\WHM;
 
@@ -119,8 +120,14 @@ class AccountController extends Controller
     public function update(Request $request, $idUser, $idConta)
     {
         $conta = Conta::findOrFail($idConta);
+        $statusA = $conta->status_id;
+
         $conta->fill($request->all());
         $conta->save();
+
+        if($conta->status_id != $statusA)
+            event(new AccountStatusUpdate($conta));
+
         return redirect()->route('admin.account.show', [$conta->user->id, $conta->idConta]);
     }
 

@@ -57,6 +57,18 @@ class WHM
         return ['codigo' => (string)$rep->result->status, 'mensagem' => (string)$rep->result->statusmsg];
     }
 
+    public function desativaConta(Conta $conta)
+    {
+        $rep = $this->xmlapi->suspendacct($conta->usuario);
+        return (int)$rep->result->status;
+    }
+
+    public function reativaConta(Conta $conta)
+    {
+        $rep = $this->xmlapi->unsuspendacct($conta->usuario);
+        return (int)$rep->result->status;
+    }
+
     /**
      * @param User $user
      * @return mixed|string

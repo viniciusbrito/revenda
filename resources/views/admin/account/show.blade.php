@@ -16,7 +16,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-sm-offset-3 text-center">
-                        @include('admin.account.partials.alter_status')
+                        @if(!$conta->nova_conta)
+                            @include('admin.account.partials.alter_status')
+                        @endif
                     </div>
                 </div>
             </div>
