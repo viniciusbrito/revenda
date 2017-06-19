@@ -18,5 +18,13 @@ class AdminSeeder extends Seeder
             'remember_token' => str_random(10),
         ];
         DB::table('admins')->insert($adm);
+
+        $adm = [
+            "nome" => "Allan Max",
+            "email" => "allan@dottcon.com ",
+            "password" => bcrypt('@341#755'),
+            "remember_token" => "cHepPGA9Jt",
+        ];
+        DB::table('admins')->insert($adm);
     }
 }

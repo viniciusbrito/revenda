@@ -60,7 +60,8 @@ class UserController extends Controller
         ]);
 
         $dados = $request->all();
-        $dados['password'] = $senha = Hash::make(str_random(8));
+        $senha = str_random(8);
+        $dados['password'] = Hash::make($senha);
 
         $dados['telefone'] = $dados['codigo_area'].' '.$dados['telefone'];
 

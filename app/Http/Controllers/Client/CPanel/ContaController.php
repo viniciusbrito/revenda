@@ -10,6 +10,7 @@ use Revenda\Http\Controllers\Controller;
 use Revenda\CPanel\Conta;
 use Revenda\CPanel\Pacote;
 use Revenda\Client\User;
+use Revenda\CPanel\WHM;
 
 class ContaController extends Controller
 {
@@ -55,7 +56,8 @@ class ContaController extends Controller
 
         $user = Auth::user();
 
-        $username = $this->makeUsername($user);
+        $whm = app(WHM::class);
+        $username = $whm->criaNomeUsuario($user);
 
         $conta = new Conta();
         $conta->dominio = $request->dominio;

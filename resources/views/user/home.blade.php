@@ -32,7 +32,7 @@
                                                     <br/>
                                                     <small>Vencimento todo dia {{ $conta->created_at->format('d') }}</small>
                                                     <br/>
-                                                    <small>Status: {{ $conta->status_id }}</small>
+                                                    <small>Status: {{ $conta->status }}</small>
                                                 </div>
                                                 <div class="col-sm-3 col-xs-6 text-center">
                                                     <a href="{{ route('client.account.show', $conta->idConta) }}" class="btn btn-default btn-block">Gerenciar</a><br/>

@@ -8,4 +8,5 @@ Homestead.json
 Homestead.yaml
 .env
 .env.production
+.env.homolog
 deploy.php
