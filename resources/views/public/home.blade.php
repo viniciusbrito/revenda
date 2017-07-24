@@ -11,7 +11,7 @@
             </div>
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
-                    <div class="input-group input-group-lg">
+                    <div class="input-group input-group-sm">
                         <input id="input-search-domain" type="text" class="form-control" placeholder="Encontre seu novo nome de domínio ...">
                             <span class="input-group-btn">
                                 <button class="btn btn-lg btn-success" type="button"><i class="glyphicon glyphicon-search"></i> Pesquisar domínio</button>
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div id="plans" style="background-color:#5cb85c; margin-top: 0; padding-top:5%; height:500px; box-shadow: 0px -2px 5px #5cb85c;">
+    <div id="plans" style="background-color:#009500; margin-top: 0; padding-top:5%; height:500px; box-shadow: 0px -2px 5px #009500;">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -40,22 +40,14 @@
                             <div class="panel">
                                 <div class="panel-body text-center" style="box-shadow: 1px 1px 10px;">
                                     <h3>PLANO<br/>BÁSICO</h3>
-                                    <H4>R$ 9.90</H4>
+                                    <H4>R$ 9.90/mês</H4>
                                     <button class="btn btn-lg btn-block btn-warning"><i class="glyphicon glyphicon-shopping-cart"></i> Contratar</button>
                                     <br/>
-                                    <p>10 GB Espaço em Disco</p>
-                                    <p>1 Domínio Hospedado</p>
-                                    <p>Transferência ILIMITADA</p>
-                                    <p>Contas de E-Mail ILIMITADAS</p>
-                                    <p>Bases MySQL ILIMITADAS</p>
-                                    <p>Subdomínios ILIMITADOS</p>
-                                    <p>Certificado SSL GRÁTIS</p>
-                                    <p>Criador de Sites GRÁTIS</p>
-                                    <p>Instalador +430 Apps GRÁTIS</p>
-                                    <p>CPU Xeon 1 x 2,4GHz</p>
-                                    <p>Memória 10GB (2 Ram + 8 Virt)</p>
-                                    <p>Processos Simultâneos 50</p>
-                                    <p>Inodes ILIMITADOS</p>
+                                    <p>1 site hospedado</p>
+                                    <p>25 GB de espaço de armazenamento *</p>
+                                    <p>10 contas de e-mail</p>
+                                    <p>Certificado SSL grátis</p>
+                                    <p>1 base de dados MySQL</p>
                                 </div>
                             </div>
                         </div>
@@ -63,22 +55,14 @@
                             <div class="panel">
                                 <div class="panel-body text-center" style="box-shadow: 1px 1px 10px;">
                                     <h3>PLANO<br/>INTERMEDIÁRIO</h3>
-                                    <H4>R$ 19.90</H4>
+                                    <H4>R$ 19.90/mês</H4>
                                     <button class="btn btn-lg btn-block btn-warning"><i class="glyphicon glyphicon-shopping-cart"></i> Contratar</button>
                                     <br/>
-                                    <p>10 GB Espaço em Disco</p>
-                                    <p>1 Domínio Hospedado</p>
-                                    <p>Transferência ILIMITADA</p>
-                                    <p>Contas de E-Mail ILIMITADAS</p>
-                                    <p>Bases MySQL ILIMITADAS</p>
-                                    <p>Subdomínios ILIMITADOS</p>
-                                    <p>Certificado SSL GRÁTIS</p>
-                                    <p>Criador de Sites GRÁTIS</p>
-                                    <p>Instalador +430 Apps GRÁTIS</p>
-                                    <p>CPU Xeon 1 x 2,4GHz</p>
-                                    <p>Memória 10GB (2 Ram + 8 Virt)</p>
-                                    <p>Processos Simultâneos 50</p>
-                                    <p>Inodes ILIMITADOS</p>
+                                    <p>2 site hospedado</p>
+                                    <p>100 GB de espaço de armazenamento *</p>
+                                    <p>40 contas de e-mail</p>
+                                    <p>Certificado SSL grátis</p>
+                                    <p>2 bases de dados MySQL</p>
                                 </div>
                               </div>
                         </div>
@@ -86,22 +70,14 @@
                             <div class="panel">
                                 <div class="panel-body text-center" style="box-shadow: 1px 1px 10px;">
                                     <h3>PLANO<br/>AVANÇADO</h3>
-                                    <H4>R$ 39.90</H4>
+                                    <H4>R$ 49.90/mês</H4>
                                     <button class="btn btn-lg btn-block btn-warning"><i class="glyphicon glyphicon-shopping-cart"></i> Contratar</button>
                                     <br/>
-                                    <p>10 GB Espaço em Disco</p>
-                                    <p>1 Domínio Hospedado</p>
-                                    <p>Transferência ILIMITADA</p>
-                                    <p>Contas de E-Mail ILIMITADAS</p>
-                                    <p>Bases MySQL ILIMITADAS</p>
-                                    <p>Subdomínios ILIMITADOS</p>
-                                    <p>Certificado SSL GRÁTIS</p>
-                                    <p>Criador de Sites GRÁTIS</p>
-                                    <p>Instalador +430 Apps GRÁTIS</p>
-                                    <p>CPU Xeon 1 x 2,4GHz</p>
-                                    <p>Memória 10GB (2 Ram + 8 Virt)</p>
-                                    <p>Processos Simultâneos 50</p>
-                                    <p>Inodes ILIMITADOS</p>
+                                    <p>Sites hospedado ilimitados</p>
+                                    <p>Espaço de armazenamento ilimitado</p>
+                                    <p>Contas de e-mail ilimitadas</p>
+                                    <p>Certificado SSL grátis</p>
+                                    <p>Bases de dados MySQL ilimitadas</p>
                                 </div>
                             </div>
                         </div>

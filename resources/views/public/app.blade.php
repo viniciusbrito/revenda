@@ -11,9 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
     <link rel="shortcut icon" href="https://dottcon.com/_biblioteca/_imagens/favicon.ico" type="image/x-icon"/>
 
     <!-- Scripts -->
@@ -65,7 +63,8 @@
         </nav>
 
         @yield('content')
-        <div id="contact" style=" background-color: #fff; margin-top: 0; padding-top:1%; height:80px; box-shadow: 0 -5px 10px #5cb85c;">
+
+        <div id="contact" style=" background-color: #fff; margin-top: 0; padding-top:1%; min-height:80px; box-shadow: 0 -1px 10px #009500;">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-2">
@@ -104,6 +103,6 @@
 
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{{ mix('assets/js/app.js') }}"></script>
 </body>
 </html>

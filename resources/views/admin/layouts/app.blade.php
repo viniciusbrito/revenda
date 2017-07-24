@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="https://dottcon.com/_biblioteca/_imagens/favicon.ico" type="image/x-icon"/>
 
     <!-- Scripts -->
@@ -90,6 +90,6 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
 </body>
 </html>
