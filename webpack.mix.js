@@ -19,7 +19,8 @@ mix.scripts([
 mix.styles([
     'resources/assets/css/google-font.css',
     'node_modules/bootstrap/dist/css/bootstrap.css',
-    'node_modules/font-awesome/css/font-awesome.css'
+    'node_modules/font-awesome/css/font-awesome.css',
+    'resources/assets/css/landpage.css'
 ], 'public/assets/css/app.css');
 
 mix.copy('node_modules/bootstrap/dist/fonts', 'public/assets/fonts', false);

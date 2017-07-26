@@ -12,3 +12,4 @@ Homestead.yaml
 .env.production
 .env.homolog
 deploy.php
+/npm-debug.log
